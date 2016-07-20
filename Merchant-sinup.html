@@ -1,0 +1,313 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Food Ordering</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+  <script src="JavaScript/jquery.js"> </script>
+  <script src=" bootstrap/js/bootstrap.min.js"></script>
+
+<!*********************************validation script here************************************************************************>
+<script>
+var emailTracker=false; /* to track email */
+/*form validation */
+
+ /* email validation function */
+
+    function emailValidation(){
+  
+      var emailPattern=/^[A-Za-z._-[A-Za-z0-9.-_*@[A-Za-z]+.[A-Za-z]+$/; 
+     var email=document.getElementById("email").value;
+
+
+       if(!emailPattern.test(email)){
+                      
+                                     document.getElementById("emailError").innerHTML="Please enter a valid email address";  
+                                        return false;                                        
+ 
+
+                                   }
+
+
+       else                        {
+
+                                      document.getElementById("emailError").innerHTML="";
+                                       return true;
+                                   }
+    }
+
+ /* end of email validation function */
+
+/*name validation */
+function nameValidation()
+{
+var name=document.getElementById("name").value;
+  if(name=="" || name==null)
+       {
+        document.getElementById("nameError").innerHTML="Please enter the name";
+        return false;
+       }
+   else{
+       document.getElementById("nameError").innerHTML="";
+        return true;
+       }
+
+}
+/*name validation*/
+
+/*mobile no validation */
+function mobileValidation()
+{
+var mobile=document.getElementById("mobile").value;
+var mobileExpression=/^[0-9]{10}$/;
+ 
+if(!mobileExpression.test(mobile)){
+                      
+                                     document.getElementById("mobileError").innerHTML="Please enter a valid mobile number";  
+                                        return false; 
+
+
+                                   }
+   else{
+       document.getElementById("mobileError").innerHTML="";
+        return true;
+       }
+
+}
+
+/*Restaurant name validation */
+function restaurantValidation()
+{
+var name=document.getElementById("restaurant").value;
+  if(name=="" || name==null)
+       {
+        document.getElementById("restaurantError").innerHTML="Please enter your restaurant name";
+        return false;
+       }
+   else{
+       document.getElementById("restaurantError").innerHTML="";
+        return true;
+       }
+
+}
+/*Restaurant name validation*/
+
+/*Restaurant Address validation */
+function restaurantAddressValidation()
+{
+var name=document.getElementById("restaurantAddress").value;
+  if(name=="" || name==null)
+       {
+        document.getElementById("restaurantAddressError").innerHTML="Please enter your restaurant address";
+        return false;
+       }
+   else{
+       document.getElementById("restaurantAddressError").innerHTML="";
+        return true;
+       }
+
+}
+/*Restaurant Address validation*/
+
+
+
+
+
+/*toSubmit function */
+ function toSubmit(){
+
+   emailValidation();
+   nameValidation();
+ mobileValidation();
+ restaurantValidation();
+restaurantAddressValidation();
+emailChecker();
+
+ 
+  if(emailValidation() && nameValidation() &&  mobileValidation() && restaurantValidation() && restaurantAddressValidation() && emailTracker )
+         {
+           
+          
+        
+                 return true;
+
+
+          }
+  else   {
+           
+           return false;
+
+         }
+  
+
+
+
+ 
+}
+/*to submit function */
+
+</script>
+
+<script>
+function emailChecker() {
+   
+
+var x=emailValidation();
+if(x==true)
+  {
+    var email=document.getElementById("email").value;
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                   
+                  var result=xmlhttp.responseText;
+                  if(result.search("unsuccess") > -1)
+
+                       {
+                         document.getElementById("emailCheckError").style.color="red";
+                         document.getElementById("emailCheckError").innerHTML ="Email Id already register";
+                         emailTracker=false;
+                          
+                       }
+                    else {
+                            
+                             document.getElementById("emailCheckError").innerHTML ="";
+                            emailTracker=true;
+                         }
+            }
+        }
+        xmlhttp.open("GET", "Merchant-Email-Checker.php?email="+email, true);
+        xmlhttp.send();
+
+  }
+
+else
+  {
+   document.getElementById("emailCheckError").innerHTML ="";
+  }
+
+
+
+
+
+  
+}
+</script>
+
+
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row">
+       <div class="col-md-12 col-xs-12 col-sm-12 col-lg=12">
+        
+           <nav class="navbar navbar-inverse navbar-fixed-top">
+  
+               <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                  </button>
+               <a class="navbar-brand" href="#"><span class="bg-primary" style="font-weight:bold">WebsiteForOnlineFoodDelivery.in</span></a>                
+               
+               </div>
+              <div class="collapse navbar-collapse" id="myNavbar" >
+               <div class="nav pull-right">
+                  <ul class="nav navbar-nav">
+                   	
+                     <li><a href="index.html" style="font-weight:bold"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                     <li><a href="Merchant-login.html" style="font-weight:bold"><span class="glyphicon glyphicon-log-in"></span> Sing In</a></li>
+                     <li   class="active"><a href="Merchant-sinup.html" style="font-weight:bold"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                  </ul>
+                </div>
+              </div>
+             </div>
+            </nav>
+      
+       </div><!col end here>
+
+  </div><!row for logo end here>
+
+<div class="row">
+      <div class="col-md-2 col-lg=2 hidden-xs hidden-sm">
+
+      </div>
+<!********************************************************sinup form start******************************************************************>
+<div class="col-md-8 col-xs-12 col-sm-12 col-lg=8" style="margin-top:70px">
+<h1 class="text-info" style="margin-left:50px">MERCHANT SINGN UP FORM</h1>
+<br>
+ 
+ <form id="newCustomer" Method="POST" action="Merchant-Registration.php" role="form" onsubmit="return toSubmit()">
+
+  <table class="table table-condensed">
+    
+     <tr>
+           <td style="text-align:left;"><label>Name</label></td>
+           <td style="text-align:left;"><input type="text" id="name" onchange="nameValidation()" maxlength="29" class="form-control" name="name" placeholder="Name"/></td>     
+  <td style="text-align:left;"><span style="color:red;" id="nameError"></span></td>
+</tr>
+<tr>
+           <td style="text-align:left;"><label>Email</label></td>
+           <td style="text-align:left;"><input type="text" id="email" maxlength="39" class="form-control" name="email" placeholder="Email" onchange="emailChecker();"/></td>  
+           <td style="text-align:left;"><span style="color:red;" id="emailError"></span></td>   
+  
+</tr>
+
+<tr>
+          
+           <td></td>  
+           <td colspan="2" style="text-align:left;"><span  id="emailCheckError"></span></td>   
+  `	
+</tr>
+
+
+
+
+
+<tr>
+           <td style="text-align:left;"><label>Mobile No.</label></td>
+           <td style="text-align:left;"><select><option>+91</option></select><input type="text"  id="mobile"  class="form-control" maxlength="10" name="mobile" placeholder="Mobile No." onchange="mobileValidation()" /></td>     
+           <td style="text-align:left;"><span style="color:red;" id="mobileError"></span></td>
+</tr>
+
+<tr>
+           <td style="text-align:left;"><label>Restaurant Name</label></td>
+           <td style="text-align:left;"><input type="text"  id="restaurant"  class="form-control" maxlength="30" name="restaurant" placeholder="Your Restaurant Name" onchange="restaurantValidation()" /></td>     
+           <td style="text-align:left;"><span style="color:red;" id="restaurantError"></span></td>
+</tr>
+
+<tr>
+           <td style="text-align:left;"><label>Restaurant Address</label></td>
+           <td style="text-align:left;"> <textarea  id="restaurantAddress"  class="form-control" rows="5" maxlength="80"  name="restaurantAddress" placeholder="Your Restaurant Address" onchange="restaurantAddressValidation()"></textarea></td>     
+           <td style="text-align:left;"><span style="color:red;" id="restaurantAddressError"></span></td>
+</tr>
+
+
+<tr>
+           <td Colspan="3" style="text-align:center;"><input type="submit" value="Sign Up" class="btn btn-default" style="color:#FFFFFF;background-color:#FF3300;font-weight:bold"  /></td>
+                
+  
+</tr>
+
+
+</table>
+</form>
+</div>
+<!********************************************************sinup form End******************************************************************>
+       <div class="col-md-2 col-lg=2 hidden-xs hidden-sm">
+
+      </div>
+
+</div><!end of row for form>
+
+
+
+
+
+</div><!fluid content end here>
+
+</body>
+</html>

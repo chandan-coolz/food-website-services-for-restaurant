@@ -1,0 +1,200 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Food Ordering</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <script src="JavaScript/jquery.js"> </script>
+  <script src=" bootstrap/js/bootstrap.min.js"></script>
+
+  <script src="JavaScript/menuList.js"> </script>
+
+
+<!*********************************login script End here************************************************************************>
+<script>
+$(document).ready(function(){
+$("#loading").hide();
+
+ });
+</script>
+
+<script>
+function login() {
+
+
+   
+ var email=document.getElementById("loginEmail").value;
+ var password=document.getElementById("loginPassword").value;
+
+
+
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+               $("#loading").show();
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                
+                      $("#loading").hide();
+                      var result=xmlhttp.responseText;
+                  if(result.search("success") > -1)
+
+                       {
+                         sessionStorage.itemName ="cool";
+                         window.location = "order.html";
+
+                             
+                         
+                          
+                       }
+                    else {
+                       
+                           document.getElementById("txtHint").innerHTML = result;
+                            
+                         }    
+
+            }//if
+        }//xmlhttp
+        xmlhttp.open("GET", "validateLogin.php?email="+email+"&password="+password, true);
+        xmlhttp.send();
+    
+}
+</script>
+
+<!********************************login script end here**********************************************************************************>
+
+
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row" style="margin-top:50px">
+       <div class="col-md-4 hidden-xs hidden-sm">
+        
+       </div>
+
+       <div class="col-md-4 col-xs=12 col-sm=12" >
+         <img class="img-responsive" src="images/logo.png" alt="logo"> 
+       </div>
+
+       <div class="col-md-4 hidden-xs hidden-sm">
+       
+
+       </div>
+
+  </div><!row for logo end here>
+
+
+<!******************************************************menu row section start here*********************************************************>
+  <div class="row">
+
+
+       <div class="col-md-12 col-xs=12 col-sm=12">
+         
+           <nav class="navbar navbar-inverse navbar-fixed-top">
+              <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                  </button>  
+                 <a class="navbar-brand">Website Name</a>
+              </div>         
+          </nav>
+       </div><!end of column>
+
+
+
+  </div><!end of row for menu>
+
+<!******************************************************menu row section end here*********************************************************>
+
+
+
+
+<!********************************************************main content section start here****************************************************>
+ <div class="row">
+  
+
+       <div class="col-md-2 hidden-xs hidden-sm">
+         
+       </div>
+
+
+       <div class="col-md-7 col-xs=12 col-sm=12"><!main content>
+
+<! *******************************admin login start****************************************************************************************>
+  
+
+  <table class="table table-condensed">
+    
+
+           <td style="text-align:left;">Email</td>
+           <td style="text-align:left;"><input type="text" id="loginEmail" maxlength="40" class="form-control" name="email" placeholder="Email"/></td>  
+            
+  
+</tr>
+
+
+<tr>
+           <td style="text-align:left;">Password</td>
+           <td style="text-align:left;"><input type="password"  id="loginPassword"  maxlength="20" class="form-control" name="password" placeholder="Password" /></td>     
+  <td style="text-align:left;"><span style="color:red;" id="passwordError"></span></td>
+</tr>
+
+
+
+<tr>
+           <td Colspan="2" style="text-align:center;"><button onclick="login()" class="btn btn-default">login</button></td>
+                
+  
+</tr>
+
+<tr>
+           <td Colspan="2" style="text-align:center;color:red;"><span id="txtHint"></span></td>
+                
+  
+</tr>
+
+</table>
+
+<div id="loading"><img class="img-responsive" src="images/loader.gif" alt="please wait"> </div>
+
+  <! *********************************************************admin login end*****************************************************************>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ </div><! end of main content column>
+
+<!********************************************************main content section End here****************************************************>
+
+
+
+
+<!********************************************************Your Order section start here****************************************************>
+
+      <div class="col-md-3 hidden-xs hidden-sm" >
+         
+
+       </div>
+<!********************************************************your order section end here***************************************************>       
+
+
+  </div><!row for main content and order end here>
+</div><!fluid content end here>
+
+</body>
+</html>

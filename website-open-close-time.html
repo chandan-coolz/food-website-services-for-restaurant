@@ -1,0 +1,356 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Food Ordering</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+  <script src="JavaScript/jquery.js"> </script>
+  <script src=" bootstrap/js/bootstrap.min.js"></script>
+
+<!************************************************file upload script start******************************************************************>
+<script>
+$(document).ready(function(){
+ $("#logoUpload").hide();
+$("#continueButton").hide();
+
+});
+
+
+</script>
+<!**************************************************radio button toggle********************************************************************>
+<script>
+$(document).ready(function(){
+
+    $('input[type="radio"]').click(function(){
+
+        if($(this).attr("value")=="providedByYou"){
+
+            
+            $("#continueButton").show();
+            $("#logoUpload").hide();
+
+        }
+
+        if($(this).attr("value")=="mine"){
+
+            $("#logoUpload").show();
+            $("#continueButton").hide();
+
+        }
+
+
+    });
+
+});
+</script>
+<script>
+
+function openTimeValidate()
+{
+
+var openTimeH=parseInt(document.getElementById("openTimeH").value);
+var openTimeM=parseInt(document.getElementById("openTimeM").value);
+var openTimeS=parseInt(document.getElementById("openTimeS").value);
+
+if(openTimeH<0 || openTimeH>23 || isNaN(openTimeH) )
+  {
+
+  document.getElementById("openTimeError").innerHTML="Hour should be between 0-24";
+   return false;
+  } else 
+  {
+    if(openTimeM<0 || openTimeM>59 || isNaN(openTimeM) )
+  
+      {
+      document.getElementById("openTimeError").innerHTML="Minutes should be between 0-59";
+      return false;
+      } 
+  else{
+         if(openTimeS<0 || openTimeS>59 || isNaN(openTimeS) )
+           {
+            document.getElementById("openTimeError").innerHTML="Seconds should be between 0-59";
+           }
+
+      else {
+            document.getElementById("openTimeError").innerHTML="";
+            return true;
+           }
+           
+
+      } //if 3
+
+  }//main if
+
+
+} //open fuction end
+
+function closeTimeValidate()
+{
+
+var closeTimeH=parseInt(document.getElementById("closeTimeH").value);
+var closeTimeM=parseInt(document.getElementById("closeTimeM").value);
+var closeTimeS=parseInt(document.getElementById("closeTimeS").value);
+
+if(closeTimeH<0 || closeTimeH>23 || isNaN(closeTimeH) )
+  {
+
+  document.getElementById("closeTimeError").innerHTML="Hour should be between 0-24";
+   return false;
+  } else 
+  {
+    if(closeTimeM<0 || closeTimeM>59 || isNaN(closeTimeM) )
+  
+      {
+      document.getElementById("closeTimeError").innerHTML="Minutes should be between 0-59";
+      return false;
+      } 
+  else{
+         if(closeTimeS<0 || closeTimeS>59 || isNaN(closeTimeS) )
+           {
+            document.getElementById("closeTimeError").innerHTML="Seconds should be between 0-59";
+           }
+
+      else {
+            document.getElementById("closeTimeError").innerHTML="";
+            return true;
+           }
+           
+
+      } //if 3
+
+  }//main if
+
+
+} //open fuction end
+
+
+function validateTimeDifference()
+{
+var openTimeH=parseInt(document.getElementById("openTimeH").value);
+var openTimeM=parseInt(document.getElementById("openTimeM").value);
+var openTimeS=parseInt(document.getElementById("openTimeS").value);
+
+var closeTimeH=parseInt(document.getElementById("closeTimeH").value);
+var closeTimeM=parseInt(document.getElementById("closeTimeM").value);
+var closeTimeS=parseInt(document.getElementById("closeTimeS").value);
+
+  if(closeTimeH>openTimeH)
+   {
+              
+    document.getElementById("TimeError").innerHTML="";
+    return true;
+
+    } else{
+
+           if(closeTimeH<openTimeH){
+              document.getElementById("TimeError").innerHTML="Closing time should be greater than opening time"; 
+              return false;
+             } else{
+                    if(closeTimeM<=openTimeM){
+                      document.getElementById("TimeError").innerHTML="Closing time should be greater than opening time";      
+                       return false;                 
+                                              } else {
+                                               
+                                               document.getElementById("TimeError").innerHTML="";
+                                                return true;   
+               
+                                              }// if 3
+
+
+     
+             }// if 2
+    }//main 1if
+
+
+
+}//close ValidateTime Difference
+
+
+
+function tosubmit()
+{
+document.getElementById("TimeError").innerHTML="";
+openTimeValidate();
+closeTimeValidate();
+ if(openTimeValidate() && closeTimeValidate() )
+    {
+       if(validateTimeDifference() )
+          {
+            return true;
+           } else{
+            return false;
+           }
+     
+     } else { 
+    
+       return false;
+
+     }
+}// tosubmit function
+</script>
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row">
+       <div class="col-md-12 col-xs-12 col-sm-12 col-lg=12">
+        
+           <nav class="navbar navbar-inverse navbar-fixed-top">
+  
+               <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                  </button>
+               <a class="navbar-brand" href="#"><span class="bg-primary" style="font-weight:bold"></a>                
+               
+               </div>
+              <div class="collapse navbar-collapse" id="myNavbar" >
+               <div class="nav pull-right">
+                  <ul class="nav navbar-nav">
+                  
+                     <li class="active"><a style="font-weight:bold">Timing Details</a></li>
+
+
+                  </ul>
+                </div>
+              </div>
+             </div>
+            </nav>
+      
+       </div><!col end here>
+
+  </div><!row for logo end here>
+
+<div class="row">
+      <div class="col-md-2 col-lg=2 hidden-xs hidden-sm">
+
+      </div>
+<!********************************************************start******************************************************************>
+<div class="col-md-8 col-xs-12 col-sm-12 col-lg=8" style="margin-top:50px;">
+
+<h1 class="text-info" >ENTER TIMING DETAILS OF YOUR RESTAURANT</h1>
+<!p  class="text-warning"><!/p>
+<br>
+ 
+
+
+</div>
+<!********************************************************End******************************************************************>
+       <div class="col-md-2 col-lg=2 hidden-xs hidden-sm">
+
+      </div>
+
+</div><!end of row for form>
+<!********************************************row 1 start here*******************************************************************>
+<div class="row">
+      <div class="col-md-2 col-lg=2 hidden-xs hidden-sm">
+
+      </div>
+
+<div class="col-md-8 col-xs-12 col-sm-12 col-lg=8" style="margin-top:10px;">
+
+ <form role="form">
+    <div class="radio">
+      <label><input type="radio" name="optradio" value="providedByYou">I want to keep my restaurant open for 24x7</label>
+    </div>
+    <div class="radio">
+      <label><input type="radio" name="optradio" value="mine">No, i don't want to keep open my restaurant for 24x7</label>
+    </div>
+    
+  </form>
+  
+
+
+
+
+
+
+<div id="logoUpload">
+
+ <form role="form"  Method="POST" action="Timing-details.php" onsubmit="return tosubmit()">
+<table class="table table-condensed">
+  <tbody>
+  <tr>
+    
+    <td><label>Restaurant Opening Time <span style="color:red">*</span></label></td>
+    <td><input type="text" class="form-control" id="openTimeH" name="openTimeH" placeholder="0-23 hours" maxlength="2">
+    <td><input type="text" class="form-control" id="openTimeM" name="openTimeM" placeholder="0-59 minutes" maxlength="2"></td>
+    <td><input type="text" class="form-control" id="openTimeS" name="openTimeS" placeholder="0-59 Second" maxlength="2"></td>
+    
+    
+ </tr>
+ <tr>
+    <td colspan="4" style="text-align:left;"><span style="color:red;" id="openTimeError"></span></td>
+ </tr>
+ <tr>    
+    <td><label>Restaurant Closing Time <span style="color:red">*</span></label></td>
+    <td><input type="text" class="form-control" id="closeTimeH" name="closeTimeH" placeholder="0-23 hours" maxlength="2"></td>
+    <td><input type="text" class="form-control" id="closeTimeM" name="closeTimeM" placeholder="0-59 minutes" maxlength="2"></td>
+    <td><input type="text" class="form-control" id="closeTimeS" name="closeTimeS" placeholder="0-59 Second" maxlength="2"></td>
+    
+ </tr>
+ <tr>
+    <td colspan="4" style="text-align:left;"><span style="color:red;" id="closeTimeError"></span></td>
+ </tr>   
+ <tr>    
+    <td><label>Week Holiday</label></td>
+    <td>
+     <select class="form-control"  name="weekHoliday">
+    <option value="none">--Select--</option>
+    <option value="sun">sun</option>
+    <option value="mon">mon</option>
+    <option value="tue">tue</option>
+    <option value="wed">wed</option>
+    <option value="thru">thru</option>
+    <option value="fri">fri</option>
+    <option value="sat">sat</option>
+  </select>
+    </td>
+ </tr>
+ 
+ <tr>
+    <td colspan="4" style="text-align:left;"><span style="color:red;" id="TimeError"></span></td>
+ </tr>
+
+ <tr>
+    <td colspan="4" style="text-align:center;"><input type="submit"  value="submit" class="btn btn-default" style="color:#FFFFFF;background-color:#FF3300;font-weight:bold" /></td>
+ </tr>
+        
+    </tbody>
+</table>
+</form>
+
+</div>
+
+
+
+
+<div id="continueButton">
+
+<button type="submit" onclick="window.location = 'No-Timing-details.php';" id="continue" class="pull-right"  style="background-color:#009900;color:white" ><i class="glyphicon glyphicon-arrow-right"></i>  CONTINUE</button>
+</div>
+
+
+</div>
+
+
+
+
+
+       <div class="col-md-2 col-lg=2 hidden-xs hidden-sm">
+
+      </div>
+
+</div><!end of row for form>
+
+
+<!********************************************row 1 end  here*******************************************************************>
+
+
+</div><!fluid content end here>
+<br><br>
+</body>
+</html>

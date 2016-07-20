@@ -1,0 +1,261 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Food Ordering</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+  <script src="JavaScript/jquery.js"> </script>
+  <script src=" bootstrap/js/bootstrap.min.js"></script>
+
+<!************************************************website check script start******************************************************************>
+<script>
+$(document).ready(function(){
+$("#loading").hide();
+$("#successResult").hide();
+$("#invalidResult").hide();
+$("#continue").hide();
+$("#takenResult").hide(); 
+$("#connectionError").hide(); 
+
+
+ });
+
+
+function check() {
+
+ 
+ var websiteName=document.getElementById("search").value;
+
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+             $("#loading").show();
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                
+
+                      var result=xmlhttp.responseText;
+                      $("#loading").hide();
+                  if(result.search("available") > -1)
+
+                       {
+                         
+                       $("#successResult").show();
+                       $("#invalidResult").hide();
+                       $("#continue").show();
+                       $("#takenResult").hide(); 
+                       $("#connectionError").hide(); 
+
+                       
+                 
+                        document.getElementById("availableSpanText").innerHTML="  YES, '"+websiteName.toUpperCase()+"' IS AVAILABLE";     
+                         
+                          
+                       }
+                    else if(result.search("taken") > -1) {
+
+
+                       $("#successResult").hide();
+                       $("#invalidResult").hide();
+                       $("#continue").hide();
+                       $("#connectionError").hide(); 
+                       $("#connectionError").hide();
+                       $("#takenResult").show();
+
+                        document.getElementById("takenSpanText").innerHTML="  SORRY, '"+websiteName.toUpperCase()+"' IS ALREADY TAKEN"; 
+                         
+                            
+                         }     
+
+                   else if(result.search("Error") > -1){
+
+                       $("#successResult").hide();
+                       $("#invalidResult").hide();
+                       $("#continue").hide();
+                       $("#connectionError").show(); 
+                       $("#takenResult").hide();
+
+
+            
+
+                         }
+                        
+                    else {
+
+
+                       $("#successResult").hide();
+                       $("#invalidResult").show();
+                       $("#continue").hide();
+                       $("#takenResult").hide();
+
+
+                        document.getElementById("invalidSpanText").innerHTML="  '"+websiteName.toUpperCase()+"'   IS INVALID"; 
+                         
+                            
+                         }  
+
+            }//if
+        }//xmlhttp
+        xmlhttp.open("GET", "domain.php?website="+websiteName, true);
+        xmlhttp.send();
+    
+}
+
+
+
+
+//function to insert domain name to database
+
+
+function domain_Save() {
+
+ 
+   
+ var domain_name=document.getElementById("search").value;
+
+
+        
+
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                
+                      
+                      var result=xmlhttp.responseText;
+                      
+                  if(result.search("Error:") > -1)
+
+                       {
+                        
+                        
+                       $("#successResult").hide();
+                       $("#invalidResult").hide();
+                       $("#continue").hide();
+                       $("#connectionError").show(); 
+                       $("#takenResult").hide();
+
+  
+                         
+                          
+                       }
+                
+                else if(result.search("notlogged") > -1){
+                 
+                       window.location = "Merchant-login.html";       
+                       }
+
+                    else {
+                       
+                          window.location = "website-open-close-time.html";          
+                            
+                         }    
+
+            }//if
+        }//xmlhttp
+        xmlhttp.open("GET", "domain-save.php?domain="+domain_name, true);
+        xmlhttp.send();
+    
+}
+
+
+//*********************************************Ajax show please wait symbol ***********************************************>
+
+
+
+
+
+                       
+</script>
+<!************************************************website check script end******************************************************************>
+
+
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row">
+       <div class="col-md-12 col-xs-12 col-sm-12 col-lg=12">
+        
+           <nav class="navbar navbar-inverse navbar-fixed-top">
+  
+               <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                  </button>
+              
+
+               <a class="navbar-brand" href="#"><span class="bg-primary" style="font-weight:bold">WebsiteForOnlineFoodDelivery.in</span></a>               
+               
+               </div>
+
+              <div class="collapse navbar-collapse" id="myNavbar" >
+               <div class="nav pull-right">
+                  <ul class="nav navbar-nav">
+                  
+                     <li class="active"><a href="#" style="font-weight:bold">Website Name Registration</a></li>
+
+
+                  </ul>
+                </div>
+              </div>
+            </div>
+            </nav>
+      
+       </div><!col end here>
+
+  </div><!row for logo end here>
+
+<div class="row">
+      <div class="col-md-3 col-lg=3 hidden-xs hidden-sm">
+
+      </div>
+<!********************************************************sinup form start******************************************************************>
+<div class="col-md-6 col-xs-12 col-sm-12 col-lg=6" style="margin-top:80px;">
+
+<h1 class="text-info" style="margin-left:50px">Website Name Registration</h1>
+<br>
+ 
+ 
+    
+ <input type="text" class="form-control" placeholder="Find your perfect website/domain name 
+Like 'Something.com'" size="60" id="search" style="color:#009900;
+    border: 1px solid black;" />
+
+
+                      
+  <button class="btn btn-default" onclick="check()"><i class="glyphicon glyphicon-search"></i></button>
+                    
+
+<br><br><br>
+<!*************************************field for success ************************************************************************************>
+<p id="successResult" class="text-success" style="font-size:25px"><i class="glyphicon glyphicon-ok"></i><span id="availableSpanText"></span> </p>
+<button class="btn btn-default" onclick="domain_Save()" type="submit" id="continue" style="background-color:#CC3300;color:white">CONTINUE</button>
+<!*******************************************already taken **********************************************************************************>
+
+<p id="takenResult" class="text-danger" style="font-size:25px"><i class="glyphicon glyphicon-remove-circle"></i><span id="takenSpanText">    </span> </p>
+
+<!*******************************************Invalid **********************************************************************************>
+<p id="invalidResult" style="color:red;font-size:25px"><i class="glyphicon glyphicon-remove"></i><span id="invalidSpanText">    </span> </p>
+
+<!*******************************************Invalid **********************************************************************************>
+<p id="connectionError" class="text-warning" style="font-size:25px"><i class="glyphicon glyphicon-warning-sign"></i>  PLEASE CHECK YOUR INTERNET CONNECTION </p>
+
+<div id="loading"><img class="img-responsive" src="images/loader.gif" alt="please wait"> </div>
+
+</div>
+<!********************************************************sinup form End******************************************************************>
+       <div class="col-md-3 col-lg=3 hidden-xs hidden-sm">
+
+      </div>
+
+</div><!end of row for form>
+
+
+
+
+
+</div><!fluid content end here>
+
+</body>
+</html>

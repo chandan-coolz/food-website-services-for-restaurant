@@ -1,0 +1,695 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Food Ordering</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <script src="JavaScript/jquery.js"> </script>
+  <script src=" bootstrap/js/bootstrap.min.js"></script>
+
+  <script src="JavaScript/menuList.js"> </script>
+
+<!********************************************script start here**********************************************************>
+<script>
+if(sessionStorage.length==0)
+{
+
+  window.location = "admin.html";
+
+}
+
+var orderNum="";
+var servedAlert=true;
+var servedOrderAlert=true;
+var UnservedOrderAlert=true;
+</script>
+
+
+
+
+
+
+<script>
+$(document).ready(function(){
+$("#oldOrderDiv").hide();
+$("#rejectOrderDiv").hide();
+$("#rejectOrderReasonDiv").hide();
+document.getElementById("newOrderLink").className = "bg-primary";
+ 
+});
+
+
+$(document).ready(function(){
+    $("#oldOrderLink").click(function(){
+        $("#newOrderDiv").hide();
+        $("#rejectOrderDiv").hide();
+        $("#rejectOrderReasonDiv").hide();
+        $("#oldOrderDiv").show();
+    document.getElementById("oldOrderLink").className = "bg-primary";
+    document.getElementById("newOrderLink").className = "";    
+    document.getElementById("rejectOrderLink").className = "";
+    });
+});
+
+
+$(document).ready(function(){
+    $("#newOrderLink").click(function(){
+        $("#oldOrderDiv").hide();
+        $("#rejectOrderDiv").hide();
+        $("#rejectOrderReasonDiv").hide();
+        $("#newOrderDiv").show();
+       document.getElementById("newOrderLink").className = "bg-primary";
+       document.getElementById("oldOrderLink").className = "";
+       document.getElementById("rejectOrderLink").className = "";
+    });
+});
+
+
+
+$(document).ready(function(){
+    $("#rejectOrderLink").click(function(){
+        $("#oldOrderDiv").hide();
+        $("#newOrderDiv").hide();
+        $("#rejectOrderDiv").show();
+        $("#rejectOrderReasonDiv").hide();
+       document.getElementById("rejectOrderLink").className = "bg-primary";
+       document.getElementById("oldOrderLink").className = "";
+       document.getElementById("newOrderLink").className = "";
+    });
+});
+</script>
+
+<!**************************************update server order******************************************************************************>
+<script>
+function updateServeStatus(x) {
+   
+        
+
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                
+         
+            }//if
+        }//xmlhttp
+        xmlhttp.open("GET", "update-Status.php?orderId="+x, true);
+        xmlhttp.send();
+    
+}
+</script>
+
+<!**************************************Reject  order******************************************************************************>
+<script>
+function rejectOrder(x) {
+   
+
+        $("#oldOrderDiv").hide();
+        $("#newOrderDiv").hide();
+        $("#rejectOrderDiv").hide();
+        $("#rejectOrderReasonDiv").show();       
+        orderNum="";
+        orderNum=x;       
+
+
+
+    
+}
+</script>
+
+<!***********************************************reject order comment *******************************************************************>
+<!******************************************served alert msg*****************************************************************************>
+<script>
+
+function showServedAlert()
+{
+
+if(servedAlert){
+servedAlert=false;
+alert("Click this button, when you  successfully delivered the order to customer.");
+
+} 
+
+}
+
+</script>
+
+<!*****************************************************************************************************************************************>
+
+<!******************************************served alert msg*****************************************************************************>
+<script>
+
+function showServedOrderAlert()
+{
+
+if(servedOrderAlert){
+servedOrderAlert=false;
+alert("This contain the list of orders which is successfully served by you ");
+
+} 
+
+}
+
+</script>
+
+<!*****************************************************************************************************************************************>
+
+<!******************************************Unserved alert msg*****************************************************************************>
+<script>
+
+function showUnservedOrderAlert()
+{
+
+if(UnservedOrderAlert){
+UnservedOrderAlert=false;
+alert("This contain the list of new unserved orders");
+
+} 
+
+}
+
+</script>
+
+<!*****************************************************************************************************************************************>
+
+
+
+<script>
+function rejectOrderRemark() {
+   
+
+        $("#oldOrderDiv").hide();
+        $("#newOrderDiv").show();
+        $("#rejectOrderDiv").hide();
+        $("#rejectOrderReasonDiv").hide();       
+        
+var rejectRemark=document.getElementById("rejectRemark").value;      
+        document.getElementById("rejectRemark").value="";
+
+
+ var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                
+         
+            }//if
+        }//xmlhttp
+        xmlhttp.open("GET", "reject-order.php?orderId="+orderNum+"&rejectRemark="+rejectRemark, true);
+        xmlhttp.send();
+    
+}
+</script>
+
+<!***************************************************print unserved order list*************************************************************>
+<script>
+
+$(document).ready(function(){
+
+         setInterval(function(){
+                
+                
+        $.getJSON('unServedDetails.php?t='+Math.random(),function(data)
+              {      
+        
+              text1="";
+
+       if(data.length>0)
+         {  
+              text1+='<Table class="table table-condensed table-striped">';
+              text1+="<thead>";
+              text1+="<tr>";
+              text1+='<th>';
+                                       text1+="Order No.";
+              text1+="</th>";
+              text1+='<th>';
+                                      text1+="Items";
+              text1+="</th>";
+
+              text1+='<th>';
+                                       text1+="Bill Amount";
+              text1+="</th>";
+              text1+='<th>';
+                                      text1+="Date";
+              text1+="</th>";
+              
+              text1+='<th>';
+                                       text1+="Name";
+              text1+="</th>";
+              text1+='<th>';
+                                      text1+="Mobile";
+              text1+="</th>";
+                                    
+              text1+='<th>';
+                                      text1+="Address";
+              text1+="</th>";
+                                    
+
+              text1+="</tr>";
+              text1+="</thead>";
+            
+              text1+="<tbody>";        
+
+
+              for(var i=0;i<data.length;i+=7)
+                  {
+             
+              text1+="<tr>";
+              text1+='<td>';
+                                       text1+=data[i];
+              text1+="</td>";
+              text1+='<td>';
+                                      text1+=data[i+1];
+              text1+="</td>";
+
+              text1+='<td>';
+                                       text1+=data[i+2];
+              text1+="</td>";
+              text1+='<td>';
+                                      text1+=data[i+3];
+              text1+="</td>";
+              
+              text1+='<td>';
+                                       text1+=data[i+4];
+              text1+="</td>";
+              text1+='<td>';
+                                      text1+=data[i+5];
+              text1+="</td>";
+                                    
+              text1+='<td>';
+                                      text1+=data[i+6];
+              text1+="</td>";
+                                    
+              text1+='<td>';
+                                      text1+='<Button onmouseover="showServedAlert()" onclick="updateServeStatus('+data[i]+')">Served</Button>';
+              text1+="</td>";
+
+              text1+='<td>';
+                                      text1+='<Button onclick="rejectOrder('+data[i]+')">Rejected</Button>';
+              text1+="</td>";
+
+              text1+="</tr>";
+            
+
+               
+                  }//for
+                 text1+="</Table>";
+
+    }//if
+
+   else{
+
+           text1+="<center>";
+            text1+='<H3 class="text-info">No New Order</H3>';
+           text1+="</center>";
+       
+       }//else
+              }); //end of get JASON
+
+         
+            $("#newOrderDiv").html(text1);
+                               },500);
+
+});
+
+
+
+
+</script>
+
+<!***************************************************print served order list*************************************************************>
+
+<! for alread served order>
+<script>
+$(document).ready(function(){
+
+         setInterval(function(){
+                
+                
+        $.getJSON('servedDetails.php?t='+Math.random(),function(data)
+              {      
+        
+              text2="";
+
+       if(data.length>0)
+         {  
+              text2+='<Table class="table table-condensed table-striped">';
+              text2+="<tr>";
+              text2+='<th>';
+                                       text2+="Order No.";
+              text2+="</th>";
+              text2+='<th>';
+                                      text2+="Items";
+              text2+="</th>";
+
+              text2+='<th>';
+                                       text2+="Bill Amount";
+              text2+="</th>";
+              text2+='<th>';
+                                      text2+="Date";
+              text2+="</th>";
+              
+              text2+='<th>';
+                                       text2+="Name";
+              text2+="</th>";
+              text2+='<th>';
+                                      text2+="Mobile";
+              text2+="</th>";
+                                    
+              text2+='<th>';
+                                      text2+="Address";
+              text2+="</th>";
+                                    
+
+              text2+="</tr>";
+            
+
+              for(var i=0;i<data.length;i+=7)
+                  {
+             
+              text2+="<tr>";
+              text2+='<td>';
+                                       text2+=data[i];
+              text2+="</td>";
+              text2+='<td>';
+                                      text2+=data[i+1];
+              text2+="</td>";
+
+              text2+='<td>';
+                                       text2+=data[i+2];
+              text2+="</td>";
+              text2+='<td>';
+                                      text2+=data[i+3];
+              text2+="</td>";
+              
+              text2+='<td>';
+                                       text2+=data[i+4];
+              text2+="</td>";
+              text2+='<td>';
+                                      text2+=data[i+5];
+              text2+="</td>";
+                                    
+              text2+='<td>';
+                                      text2+=data[i+6];
+              text2+="</td>";
+                                    
+
+              text2+="</tr>";
+            
+
+               
+                  }//for
+                 text2+="</Table>";
+
+        }//if
+
+   else{
+
+            text2+="<center>";
+            text2+='<H3 class="text-info">Nothing to display</H3>';
+            text2+="</center>";
+       
+       }//else
+
+              }); //end of get JASON
+
+         
+            $("#oldOrderDiv").html(text2);
+                               },1000);
+
+});
+
+
+
+
+
+
+
+</script>
+
+
+<!***************************************************print rejected order list*************************************************************>
+
+<! for alread served order>
+<script>
+$(document).ready(function(){
+
+         setInterval(function(){
+                
+                
+        $.getJSON('reject-order-list.php?t='+Math.random(),function(data)
+              {      
+        
+              text3="";
+
+       if(data.length>0)
+         {  
+              text3+='<Table class="table table-condensed table-striped">';
+              text3+="<tr>";
+              text3+='<th>';
+                                       text3+="Order No.";
+              text3+="</th>";
+              text3+='<th>';
+                                      text3+="Items";
+              text3+="</th>";
+
+              text3+='<th>';
+                                       text3+="Bill Amount";
+              text3+="</th>";
+              text3+='<th>';
+                                      text3+="Date";
+              text3+="</th>";
+              
+              text3+='<th>';
+                                       text3+="Name";
+              text3+="</th>";
+              text3+='<th>';
+                                      text3+="Mobile";
+              text3+="</th>";
+                                    
+              text3+='<th>';
+                                      text3+="Address";
+              text3+="</th>";
+     
+              text3+='<th>';
+                                      text3+="Rejection Reason";
+              text3+="</th>";                               
+
+              text2+="</tr>";
+            
+
+              for(var i=0;i<data.length;i+=8)
+                  {
+             
+              text3+="<tr>";
+              text3+='<td>';
+                                       text3+=data[i];
+              text3+="</td>";
+              text3+='<td>';
+                                      text3+=data[i+1];
+              text3+="</td>";
+
+              text3+='<td>';
+                                       text3+=data[i+2];
+              text3+="</td>";
+              text3+='<td>';
+                                      text3+=data[i+3];
+              text3+="</td>";
+              
+              text3+='<td>';
+                                       text3+=data[i+4];
+              text3+="</td>";
+              text3+='<td>';
+                                      text3+=data[i+5];
+              text3+="</td>";
+                                    
+              text3+='<td>';
+                                      text3+=data[i+6];
+              text3+="</td>";
+                                    
+
+              text3+='<td>';
+                                      text3+=data[i+7];
+              text3+="</td>";
+                              
+              text3+="</tr>";
+            
+
+               
+                  }//for
+                 text3+="</Table>";
+
+        }//if
+
+   else{
+
+            text3+="<center>";
+            text3+='<H3 class="text-info">Nothing to display</H3>';
+            text3+="</center>";
+       
+       }//else
+
+              }); //end of get JASON
+
+         
+            $("#rejectOrderDiv").html(text3);
+                               },1000);
+
+});
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!********************************script end here******************************************************************************>
+
+
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row" style="margin-top:50px">
+       <div class="col-md-4 hidden-xs hidden-sm">
+        
+       </div>
+
+       <div class="col-md-4 col-xs=12 col-sm=12" >
+         <img class="img-responsive" src="images/logo.png" alt="logo"> 
+       </div>
+
+       <div class="col-md-4 hidden-xs hidden-sm">
+       
+
+       </div>
+
+  </div><!row for logo end here>
+
+
+<!******************************************************menu row section start here*********************************************************>
+  <div class="row">
+
+
+       <div class="col-md-12 col-xs=12 col-sm=12">
+         
+           <nav class="navbar navbar-inverse navbar-fixed-top">
+              <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                  </button>  
+                 <a class="navbar-brand">Website Name</a>
+              </div> 
+
+              
+          </nav>
+       </div><!end of column>
+
+
+
+  </div><!end of row for menu>
+<!******************************************************menu row section end here*********************************************************>
+
+
+
+
+<!********************************************************main content section start here****************************************************>
+ <div class="row" style="margin-top:20px">
+  
+
+       <div class="col-md-12 col-xs=12 col-sm=12"><!main content>
+ <! *******************************content********************************************************************************************>
+               <ul class="nav nav-tabs">
+               <li onmouseover="showUnservedOrderAlert()" ><a id="newOrderLink" href="#">Unserved New Order</a></li>
+               <li onmouseover="showServedOrderAlert()"><a id="oldOrderLink" href="#">Served Order</a></li>   
+              <li><a id="rejectOrderLink" href="#">Rejected Order</a></li>  
+               </ul>
+
+ <! *******************************new Order********************************************************************************************>
+       <div id="newOrderDiv">
+
+ 
+  
+
+        </div>
+
+<! *******************************old Order********************************************************************************************>
+<div id="oldOrderDiv">
+
+
+  
+
+
+   </div>
+
+
+
+  <! ********************************************************* old Order*****************************************************************>
+
+<! *******************************rejected Order********************************************************************************************>
+<div id="rejectOrderDiv">
+
+
+  
+
+
+   </div>
+
+
+
+  <! ********************************************************* old Order*****************************************************************>
+
+<! *******************************rejected Order********************************************************************************************>
+<div id="rejectOrderReasonDiv">
+
+  <form role="form">
+    <div class="form-group">
+      <label for="comment">Why you reject the order:</label>
+      <textarea class="form-control" rows="5" id="rejectRemark"></textarea>
+    </div>
+    <button onclick="rejectOrderRemark()" class="btn btn-default">submit</button>
+  </form>
+  
+
+
+   </div>
+
+
+
+  <! ********************************************************* old Order*****************************************************************>
+
+
+
+
+ <! *********************************************************content*****************************************************************>
+      </div><! end of main content column>
+
+
+
+
+  </div><!row for main content  end here>
+<!********************************************************main content section end here****************************************************>
+ 
+</div><!fluid content end here>
+
+</body>
+</html>

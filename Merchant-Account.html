@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Food Ordering</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+  <script src="JavaScript/jquery.js"> </script>
+  <script src=" bootstrap/js/bootstrap.min.js"></script>
+
+<!*********************************validation script here************************************************************************>
+<script>
+
+$(document).ready(function(){
+
+
+var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                
+
+                      var result=xmlhttp.responseText;
+   
+                if(result.search("notlogged") > -1){
+                 
+                       window.location = "Merchant-login.html";       
+                       }
+                
+                    else {
+                       
+                           document.getElementById("usrName").innerHTML=" welcome "+result;
+                                                    
+                         }    
+
+            }//if
+        }//xmlhttp
+        xmlhttp.open("GET", "Merchant-Get-Name.php", true);
+        xmlhttp.send();
+    
+
+
+
+
+}); //end of ready
+
+</script>
+
+
+
+<script>
+
+$(document).ready(function(){
+
+$.getJSON('Merchant-details.php',function(data)
+ {
+
+   if(data[3]=="N")
+      {
+       $("#website_status_not_active").show();
+       $("#website_status_active").hide();
+      }  
+  else{
+       $("#website_status_not_active").hide();
+       $("#website_status_active").show();
+      }
+
+
+
+  document.getElementById("merchant_name").innerHTML=data[0];
+  document.getElementById("merchant_email").innerHTML=data[1];
+  document.getElementById("restaurant_name").innerHTML=data[2];
+  document.getElementById("domain_name").innerHTML=data[4];
+
+  if(data[5]=="W")
+      {
+       document.getElementById("domain_status").innerHTML="Waiting";
+      }        
+ else if(data[5]=="R")
+      {
+       document.getElementById("domain_status").innerHTML="Register";
+      }
+ else {
+       document.getElementById("domain_status").innerHTML="Not Register";
+      }
+  
+
+});
+
+
+});
+
+
+
+
+</script>
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row">
+       <div class="col-md-12 col-xs-12 col-sm-12 col-lg=12">
+        
+           <nav class="navbar navbar-inverse navbar-fixed-top">
+  
+               <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                  </button>
+               <a class="navbar-brand" href="#"><span class="bg-primary" style="font-weight:bold">WebsiteForOnlineFoodDelivery.in</span></a>                
+               
+               </div>
+            <div class="collapse navbar-collapse" id="myNavbar" >
+               <div class="nav pull-right">
+                  <ul class="nav navbar-nav">
+                  
+                     <li class="active"><a  style="font-weight:bold"><i class="glyphicon glyphicon-user"></i><span id="usrName"> </span> </a></li>
+                     <li><a href="logout.php" style="font-weight:bold"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+                  </ul>
+                </div>
+              </div>
+           </div>
+            </nav>
+      
+       </div><!col end here>
+
+  </div><!row for logo end here>
+
+<div class="row">
+
+<div class="col-md-12 col-xs-12 col-sm-12 col-lg=12" style="margin-top:90px">
+<ul class="nav nav-pills">
+  <li class="active"><a href="Merchant-Account.html">ACCOUNT SUMMARY            </a></li>
+   <li><a href="Merchant-Account-Update-Password.html">UPDATE PASSWORD          </a></li>
+   <li><a href="Merchant-Account-Update-Website-Picture.html">UPDATE WEBSITE PIC</a></li>
+   <li><a href="Merchant-Account-Update-logo.html">UPDATE WEBSITE LOGO</a></li>
+   <li><a href="Merchant-Account-Update-Menu-Picture.html">UPDATE MENU CHART</a></li>
+   <li><a href="update-website-open-close-time.html">UPDATE RESTAURANT TIMING</a></li>
+</div>
+
+
+</div><!end of row for form>
+<!******************************************************************END OF TAB MENU*******************************************************>
+<div class="row">
+      <div class="col-md-2 col-lg=2 hidden-xs hidden-sm">
+
+      </div>
+<div class="col-md-8 col-xs-12 col-sm-12 col-lg=8" style="margin-top:20px">
+
+<H1 class="text-info"> ACCOUNT INFORMATION </H1>
+
+<span id="website_status_not_active" class="text-warning"><i class="glyphicon glyphicon-info-sign"></i>  Your website is under construction, you will get email notification once it is active</span>
+<span id="website_status_active" class="text-success"><i class="glyphicon glyphicon-ok-sign"></i> Your website is Active</span>
+<br/><br/>
+<table class="table table-condensed table-striped">
+ <tr>
+     <td><label>Name</label></td>
+     <td><span  id="merchant_name"></td>
+ </tr>
+
+ <tr>
+     <td><label>Email</label></td>
+     <td><span  id="merchant_email"></td>
+ </tr>
+
+ <tr>
+     <td><label>Restaurant Name</label></td>
+     <td><span  id="restaurant_name"></td>
+ </tr>
+
+ <tr>
+     <td><label>Domain Name</label></td>
+     <td><span  id="domain_name"></td>
+ </tr>
+
+ <tr>
+     <td><label>Domain Registration Status</label></td>
+     <td><span  id="domain_status"></td>
+ </tr>
+</table>
+
+
+
+</div>
+
+       <div class="col-md-2 col-lg=2 hidden-xs hidden-sm">
+
+      </div>
+
+</div><!end of row for form>
+
+
+
+</div><!fluid content end here>
+
+</body>
+</html>

@@ -1,0 +1,177 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Food Ordering</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+  <script src="JavaScript/jquery.js"> </script>
+  <script src=" bootstrap/js/bootstrap.min.js"></script>
+
+<!*********************************validation script here************************************************************************>
+
+<script>
+$(document).ready(function(){
+$("#loading").hide();
+
+ });
+</script>
+
+<script>
+
+function login() {
+
+ 
+ 
+ var email=document.getElementById("loginEmail").value;
+ var password=document.getElementById("loginPassword").value;
+
+
+
+        var xmlhttp = new XMLHttpRequest();
+       
+        xmlhttp.onreadystatechange = function() {
+              $("#loading").show();
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                
+                     $("#loading").hide();
+                      var result=xmlhttp.responseText;
+                  if(result.search("unpaid") > -1)
+
+                       {
+                        
+                         window.location = "Domain-Registration.html";
+                             
+                         
+                          
+                       }
+
+                  else if(result.search("paid") > -1)
+
+                       {
+                        
+                         window.location = "Merchant-Account.html";
+                             
+                         
+                          
+                       }
+                  else if(result.search("notregister") > -1)
+
+                       {
+                        
+                         window.location = "Update-Domain-Registration.html";
+                             
+                         
+                          
+                       }            
+                    else {
+                       
+                           document.getElementById("txtHint").innerHTML = result;
+                            
+                         }    
+
+            }//if
+        }//xmlhttp
+        xmlhttp.open("GET", "validate-Merchant-Login.php?email="+email+"&password="+password, true);
+        xmlhttp.send();
+    
+}
+
+
+</script>
+
+
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row">
+       <div class="col-md-12 col-xs-12 col-sm-12 col-lg=12">
+        
+           <nav class="navbar navbar-inverse navbar-fixed-top">
+  
+               <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                  </button>
+
+               <a class="navbar-brand" href="#"><span class="bg-primary" style="font-weight:bold">WebsiteForOnlineFoodDelivery.in</span></a>                
+               
+               </div>
+              <div class="collapse navbar-collapse" id="myNavbar" >
+               <div class="nav pull-right">
+                  <ul class="nav navbar-nav">
+                  
+                     <li><a href="index.html" style="font-weight:bold"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                     <li class="active"><a href="Merchant-login.html" style="font-weight:bold"><span class="glyphicon glyphicon-log-in"></span>  Sing In</a></li>
+                     <li><a href="Merchant-sinup.html" style="font-weight:bold"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                  </ul>
+                </div>
+              </div>
+             </div>
+            </nav>
+      
+       </div><!col end here>
+
+  </div><!row for logo end here>
+
+<div class="row">
+      <div class="col-md-2 col-lg=2 hidden-xs hidden-sm">
+
+      </div>
+<!********************************************************sinip form start******************************************************************>
+<div class="col-md-8 col-xs-12 col-sm-12 col-lg=8" style="margin-top:70px">
+
+<h1 class="text-info" style="margin-left:50px">MERCHANT SIGN IN FORM</h1>
+<br>
+  <table class="table table-condensed">
+    
+              <td style="text-align:left;">Email</td>
+           <td style="text-align:left;"><input type="text" id="loginEmail" maxlength="40" class="form-control" name="email" placeholder="Email"/></td>  
+            
+  
+</tr>
+
+
+<tr>
+           <td style="text-align:left;">Password</td>
+           <td style="text-align:left;"><input type="password"  id="loginPassword"  maxlength="20" class="form-control" name="password" placeholder="Password" /></td>     
+  <td style="text-align:left;"><span style="color:red;" id="passwordError"></span></td>
+</tr>
+
+
+
+<tr>
+           <td  style="text-align:center;"><button onclick="login()" class="btn btn-default" style="color:#FFFFFF;background-color:#FF3300;font-weight:bold" >login</button></td>
+                
+             <td  style="text-align:center;"><button onclick="window.location ='Merchant-forget-password.html';" class="btn btn-default" style="color:#FFFFFF;background-color:#FF3300;font-weight:bold" >forget password</button></td>
+</tr>
+
+<tr>
+           <td Colspan="2" style="text-align:center;color:red;"><span id="txtHint"></span></td>
+                
+  
+</tr>
+
+
+
+</table>
+<div id="loading"><img class="img-responsive" src="images/loader.gif" alt="please wait"> </div>
+</div>
+<!********************************************************sinip form End******************************************************************>
+       <div class="col-md-2 col-lg=2 hidden-xs hidden-sm">
+
+      </div>
+
+</div><!end of row for form>
+
+
+
+
+
+</div><!fluid content end here>
+
+</body>
+</html>

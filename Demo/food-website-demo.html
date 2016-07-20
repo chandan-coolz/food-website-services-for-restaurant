@@ -1,0 +1,1380 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Food Ordering</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <script src="JavaScript/jquery.js"> </script>
+  <script src=" bootstrap/js/bootstrap.min.js"></script>
+
+  <script src="JavaScript/menuList.js"> </script>
+
+<!********************************************script to add to the basket start here**********************************************************>
+<script>
+var text="";
+var totalAmount=0;
+var itemKey=[],itemName=[],itemPrice=[],itemQty=[];
+
+if(sessionStorage.itemKey!=null)
+{
+
+ itemKey = JSON.parse(sessionStorage.itemKey);
+  itemName = JSON.parse(sessionStorage.itemName);
+ itemPrice = JSON.parse(sessionStorage.itemPrice);
+ itemQty = JSON.parse(sessionStorage.itemQty);
+ totalAmount=Number(sessionStorage.totalAmount);
+
+if(totalAmount>0)
+{
+
+text+='<h4 class="bg-primary" style="text-align:center">Your Order</h4>';
+text+='<table class="table table-condensed table-striped"> <thead> <tr> <th>item</th> <th>Qty</th> <th>Price</th> </tr> </thead> <tbody>';
+
+for(var i=0;i<itemKey.length;i++)   
+                             {
+
+                       if(itemQty[i]>0)
+                                 {
+                                     text+="<tr>";
+             
+                                     text+='<td>';
+                                       text+=itemName[i];
+                                     text+="</td>";
+
+                                     text+='<td>';
+                                      text+=itemQty[i];
+                                     text+="</td>";
+
+                                     text+='<td>';
+                                      text+=itemPrice[i];
+                                     text+="</td>";
+
+                                      text+="</tr>";
+
+                                  }
+                                  
+                             }
+
+                       
+                                 
+                                     text+="<tr>";
+             
+                                     text+='<td>';
+                                       text+="Total Amount =";
+                                     text+="</td>";
+                                   
+                                     text+='<td colspan="2">';
+                                       text+=totalAmount;
+                                     text+="</td>";
+                                    text+="</tr>";
+                                    text+="</tbody>"
+                                   text+="</table>";
+                                   text+="<br><br><center>";
+                                  text+='<form action="checkout.html" onsubmit="sessionStore()" >';
+  
+                                  text+='<input type="submit" class="form-control" value="Checkout" style="color:#00FF00">';
+                                  text+= '</form>';
+                                  text+='<br>';
+                                   text+='<br>';
+
+
+
+}/* end of total amount check if*/
+
+}// end of session storage if
+
+
+
+
+
+
+
+
+
+
+function addBasket(key,listElement){
+text="";
+if(itemKey.length>0)/* for nonempty case */
+{
+
+       for(var j=0;j<listElement.length;j++)
+          {
+              var num=parseInt(document.getElementById(key+j).value);
+                    if(num>=0)
+                       {
+
+                        var i;
+                              for(i=0;i<itemKey.length;i++)
+                                   {
+                                     if(itemKey[i]==(key+j))
+                                           {
+                                              
+                                                break;
+
+                                            }/*if */
+                                
+                                   }/*for*/
+                                  
+
+                               if(i==itemKey.length)
+                                   {
+                                      itemKey.push(key+j);
+                                      itemName.push(listElement[j].itemName);
+                                      itemPrice.push(listElement[j].itemPrice);
+                                      itemQty.push(num);
+                                      totalAmount+=(itemQty[i]*itemPrice[i]);
+                                   }
+
+
+                               else{
+                                      totalAmount-=(itemQty[i]*itemPrice[i]);
+                                      itemQty[i]=num;
+
+                                       totalAmount+=(itemQty[i]*itemPrice[i]);
+
+                                   }
+
+
+
+
+                        }              
+                     
+                    else{
+                            
+                         
+                        }/*else*/
+          }/* for loo */
+
+
+
+
+
+
+} /* if end of mpty erro */
+
+
+else{
+     var i=-1;
+      for(var j=0;j<listElement.length;j++)
+          {   
+              var num=parseInt(document.getElementById(key+j).value);
+                    if(num>=0){ 
+                                   i++;    
+                                      itemKey.push(key+j);
+                                      itemName.push(listElement[j].itemName);
+                                      itemPrice.push(listElement[j].itemPrice);
+                                      itemQty.push(num);
+                                   
+                                      totalAmount+=(itemQty[i]*itemPrice[i]);
+                                   
+                     
+                             }              
+                     
+                    else{
+                         
+                        
+                        }
+          }
+
+}/* else end of empty error */
+
+
+
+
+/*adding feld to tet field */
+
+if(totalAmount>0)
+{
+text+='<h4 class="bg-primary" style="text-align:center">Your Order</h4>';
+text+='<table class="table table-condensed table-striped"> <thead> <tr> <th>item</th> <th>Qty</th> <th>Price</th> </tr> </thead> <tbody>';
+
+for(var i=0;i<itemKey.length;i++)   
+                             {
+
+                       if(itemQty[i]>0)
+                                 {
+                                     text+="<tr>";
+             
+                                     text+='<td>';
+                                       text+=itemName[i];
+                                     text+="</td>";
+
+                                     text+='<td>';
+                                      text+=itemQty[i];
+                                     text+="</td>";
+
+                                     text+='<td>';
+                                      text+=itemPrice[i];
+                                     text+="</td>";
+
+                                      text+="</tr>";
+
+                                  }
+                                  
+                             }
+
+                       
+                                 
+                                     text+="<tr>";
+             
+                                     text+='<td>';
+                                       text+="Total Amount =";
+                                     text+="</td>";
+                                   
+                                     text+='<td colspan="2">';
+                                       text+=totalAmount;
+                                     text+="</td>";
+                                    text+="</tr>";
+                                    text+="</tbody>"
+                                   text+="</table>";
+                                   text+="<br><br><center>";
+                                  text+='<form action="checkout.html" onsubmit="sessionStore()" >';
+  
+                                  text+='<input type="submit" class="form-control" value="Checkout" style="color:#00FF00">';
+                                  text+= '</form>';
+                                  text+='<br>';
+                                   text+='<br>';
+
+
+
+}/* end of total amountint */
+
+}/* end of unction */
+
+</script>
+
+<!********************************************script to add to the basket End here**********************************************************>
+
+<!*******************************************script to display in your order column after every 1 sec start here****************************>
+<script>
+
+$(document).ready(function(){
+              setInterval(function() {
+               
+                 $("#orderDisplay").html(text)},1000);   
+
+});
+
+
+</script>
+<!*******************************************script to display in your order column after every 1 sec start here****************************>
+
+
+<!*********************************Hide and show script start here************************************************************************>
+<script>
+$(document).ready(function(){
+$("#VegSec").hide();
+$("#NonVegSec").hide();
+$("#seaFood").hide();
+$("#rotiParatha").hide(); 
+$("#riceNoodles").hide();
+$("#miscellaneous").hide();
+
+
+ });
+
+
+
+
+//veg section start
+$(document).ready(function(){
+    $("#VegFood").click(function(){
+        
+        $("#miscellaneous").hide();
+        $("#riceNoodles").hide();
+        $("#rotiParatha").hide();
+        $("#NonVegSec").hide();
+        $("#seaFood").hide();
+        $("#veglistgravy").hide();        
+        $("#startingImage").hide();    
+
+        $("#VegSec").show();
+        $("#vegliststarers").show();
+    });
+});
+
+
+
+
+
+$(document).ready(function(){
+    $("#vs").click(function(){
+        
+        $("#miscellaneous").hide();
+        $("#riceNoodles").hide();
+        $("#rotiParatha").hide();      
+        $("#NonVegSec").hide();
+        $("#seaFood").hide();
+        $("#veglistgravy").hide();       
+        $("#startingImage").hide();
+
+        $("#VegSec").show();
+        $("#vegliststarers").show();
+    });
+});
+
+
+$(document).ready(function(){
+    $("#vg").click(function(){
+        
+        $("#miscellaneous").hide();
+        $("#riceNoodles").hide();
+        $("#rotiParatha").hide();
+        $("#NonVegSec").hide();
+        $("#seaFood").hide();
+        $("#vegliststarers").hide();
+        $("#startingImage").hide();
+ 
+        $("#VegSec").show();
+        $("#veglistgravy").show();
+    });
+});
+
+// veg section end
+
+//Non veg section start
+$(document).ready(function(){
+    $("#NonVegFood").click(function(){
+        
+        $("#miscellaneous").hide();
+        $("#riceNoodles").hide();
+        $("#rotiParatha").hide();
+        $("#seaFood").hide();
+        $("#VegSec").hide();
+        $("#startingImage").hide();
+    
+        $("#NonVegSec").show();
+        $("#nonVegStarters").show();
+        $("#nonVegGravy").hide();
+    });
+});
+
+
+
+$(document).ready(function(){
+    $("#nvs").click(function(){
+      
+       $("#miscellaneous").hide();
+       $("#riceNoodles").hide();
+       $("#rotiParatha").hide();
+       $("#seaFood").hide(); 
+       $("#VegSec").hide();            
+       $("#nonVegGravy").hide();
+       $("#startingImage").hide();
+
+        $("#NonVegSec").show();
+        $("#nonVegStarters").show();
+    });
+});
+
+
+$(document).ready(function(){
+    $("#nvg").click(function(){
+       
+         $("#miscellaneous").hide();
+         $("#riceNoodles").hide();
+         $("#rotiParatha").hide();  
+         $("#seaFood").hide();
+         $("#VegSec").hide();
+         $("#nonVegStarters").hide();
+         $("#startingImage").hide();
+
+        $("#NonVegSec").show();
+        $("#nonVegGravy").show();
+    });
+});
+//non veg section end
+
+//sea food start
+$(document).ready(function(){
+    $("#SeaFood").click(function(){
+        
+        $("#miscellaneous").hide();
+        $("#riceNoodles").hide();
+        $("#rotiParatha").hide();
+        $("#NonVegSec").hide();
+        $("#VegSec").hide();
+        $("#startingImage").hide();
+    
+        $("#seaFood").show();
+   
+    });
+});
+//sea food end
+//Roti Paratha start
+$(document).ready(function(){
+    $("#RotiParatha").click(function(){
+        
+       
+        $("#miscellaneous").hide();
+        $("#riceNoodles").hide();
+        $("#NonVegSec").hide();
+        $("#VegSec").hide();
+        $("#seaFood").hide();
+        $("#startingImage").hide();    
+
+        $("#rotiParatha").show();
+   
+    });
+});
+//Roti paratha end 
+//rice and Noodles start
+$(document).ready(function(){
+    $("#RiceNoodles").click(function(){
+        
+       
+        $("#miscellaneous").hide();
+        $("#NonVegSec").hide();
+        $("#VegSec").hide();
+        $("#seaFood").hide();
+        $("#rotiParatha").hide();
+        $("#startingImage").hide();
+       
+       $("#riceNoodles").show();
+   
+    });
+});
+//rice and noodles end here
+//Miscellaneous start here
+$(document).ready(function(){
+    $("#Misscellaneous").click(function(){
+        
+        
+        $("#riceNoodles").hide();
+        $("#rotiParatha").hide();
+        $("#seaFood").hide();
+        $("#VegSec").hide();
+        $("#NonVegSec").hide();
+        $("#Raita").hide();
+        $("#Lassi").hide();    
+        $("#startingImage").hide();
+        
+        $("#miscellaneous").show();
+        $("#Biryani").show();
+      
+    });
+});
+
+
+
+$(document).ready(function(){
+    $("#bm").click(function(){
+      
+        $("#riceNoodles").hide();
+        $("#rotiParatha").hide();
+        $("#seaFood").hide();
+        $("#VegSec").hide();
+        $("#NonVegSec").hide();
+        $("#Raita").hide();
+        $("#Lassi").hide();    
+        $("#startingImage").hide();
+
+        $("#miscellaneous").show();
+        $("#Biryani").show();
+    });
+});
+
+
+$(document).ready(function(){
+    $("#rm").click(function(){
+       
+        $("#riceNoodles").hide();
+        $("#rotiParatha").hide();
+        $("#seaFood").hide();
+        $("#VegSec").hide();
+        $("#NonVegSec").hide();
+        $("#Biryani").hide();
+        $("#Lassi").hide();    
+        $("#startingImage").hide();
+
+        $("#miscellaneous").show();
+        $("#Raita").show();;
+    });
+});
+
+$(document).ready(function(){
+    $("#lm").click(function(){
+       
+        $("#riceNoodles").hide();
+        $("#rotiParatha").hide();
+        $("#seaFood").hide();
+        $("#VegSec").hide();
+        $("#NonVegSec").hide();
+        $("#Biryani").hide();
+        $("#Raita").hide();    
+        $("#startingImage").hide();
+
+        $("#miscellaneous").show();
+        $("#Lassi").show();;
+    });
+});
+
+//miscellaneous end here
+</script>
+<!*********************************Hide and show script End here************************************************************************>
+
+<!********************************to store the session**********************************************************************************>
+<script>
+
+function sessionStore(){
+
+
+
+sessionStorage.itemKey = JSON.stringify(itemKey);
+sessionStorage.itemName = JSON.stringify(itemName);
+sessionStorage.itemPrice = JSON.stringify(itemPrice);
+sessionStorage.itemQty = JSON.stringify(itemQty);
+sessionStorage.totalAmount=totalAmount;
+
+}
+
+
+
+</script>
+<!**************************************************function to increase the quantrity******************************************************>
+<script>
+function plus(key,i)
+ {
+
+var x=document.getElementById(key+i).value;
+document.getElementById(key+i).value=parseInt(x)+1;
+
+
+ }
+
+function minus(key,i)
+ {
+
+var x=parseInt(document.getElementById(key+i).value);
+
+  if(x>0){x--;}
+document.getElementById(key+i).value=x;
+
+
+ }
+</script>
+
+
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row" style="margin-top:50px">
+       <div class="col-md-4 hidden-xs hidden-sm">
+        
+       </div>
+
+       <div class="col-md-4 col-xs=12 col-sm=12" >
+         <img class="img-responsive" src="images/logo.png" alt="logo"> 
+       </div>
+
+       <div class="col-md-4 hidden-xs hidden-sm">
+       
+
+       </div>
+
+  </div><!row for logo end here>
+
+
+<!******************************************************menu row section start here*********************************************************>
+  <div class="row">
+
+
+       <div class="col-md-12 col-xs=12 col-sm=12">
+         
+           <nav class="navbar navbar-inverse navbar-fixed-top">
+              <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                  </button>  
+                 <a class="navbar-brand">Website Name</a>
+              </div> 
+
+              <div class="collapse navbar-collapse" id="myNavbar" >
+                   <ul class="nav navbar-nav">
+                        <li><a href="food-website-demo.html">Home</a></li>
+                        <li class="dropdown">
+                           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Food Menu
+                              <span class="caret"></span></a>
+                               <ul class="dropdown-menu">
+                                  <li id="VegFood"><a href="#">Veg. food</a></li>
+                                  <li id="NonVegFood"><a href="#">Non Veg. food</a></li>
+                                  <li id="SeaFood"><a href="#">Sea food(Fish & Prawns)</a></li>     
+                                  <li id="RotiParatha"><a href="#">Roti & Paratha</a></li>
+                                  <li id="RiceNoodles"><a href="#">Rice & Noodles</a></li> 
+                                  <li id="Misscellaneous"><a href="#">Misscellaneous</a></li>                    
+                               </ul>
+                        </li>
+                        <li><a href="contact.html">Contact</a></li>
+                   </ul>
+              </div>
+          </nav>
+       </div><!end of column>
+
+
+
+  </div><!end of row for menu>
+
+<!******************************************************menu row section end here*********************************************************>
+
+
+
+
+<!********************************************************main content section start here****************************************************>
+ <div class="row">
+  
+
+       <div class="col-md-2 hidden-xs hidden-sm">
+         
+       </div>
+
+
+       <div class="col-md-7 col-xs=8 col-sm=8"><!main content>
+       
+
+<!**********************************************************starting image Start here ******************************************************> 
+
+
+       <div id="startingImage" style="margin-left:15px ">
+         <img class="img-responsive" src="images/cheaprecipes.jpg" alt="cheap food"> 
+         <br>
+       </div>
+<!**********************************************************Veg Section Start here ******************************************************> 
+
+
+
+
+
+
+
+<!**********************************************************Veg Section Start here ******************************************************> 
+<div id="VegSec">
+   <ul class="nav nav-tabs">
+       <li id="vs" ><a href="#">Starters</a></li>
+       <li id="vg" ><a href="#">Gravey</a></li>   
+  </ul> 
+  <! *******************************vegstaters********************************************************************************************>
+            <div id="vegliststarers">  
+            <br>
+            
+
+            <h3>Veg. Starters</h3>
+
+            
+            <table class="table table-condensed table-striped" >
+              <thead>
+              <tr>
+                  <th>Item</th>
+                  <th>Price</th>
+                  <th></th>
+                  <th>quantity</th>
+                  <th></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <script>
+                     for(var i=0;i<VSList.length;i++)
+                        {
+                            document.write("<tr>");
+
+                              document.write("<td>")
+                              document.write(VSList[i].itemName);
+                              document.write("</td>");  
+
+     
+                              document.write("<td>")
+                              document.write(VSList[i].itemPrice);
+                              document.write("</td>");
+
+                              
+                              document.write('<td style="text-align:right">')
+                              document.write('<BUTTON onclick="plus('+"'vs',"+i+');" class="btn btn-default">+</BUTTON>');
+                              document.write("</td>"); 
+
+
+                              document.write("<td>")
+                              document.write('<input type="text" id="vs'+i+'" size="1" class="form-control" value="0" disabled>');
+                              document.write("</td>");  
+
+
+                              document.write("<td>")
+                              document.write('<BUTTON onclick="minus('+"'vs',"+i+');" class="btn btn-default">-</BUTTON>');
+                              document.write("</td>"); 
+
+
+
+                            document.write("</tr>");
+                        }
+   
+                  </script>
+
+                   <tr>
+                     <td colspan="3" style="text-align:center;">
+                     <BUTTON onclick='addBasket("vs",VSList);' class="btn btn-default">Add to Bucket</BUTTON>
+                     </td>
+                  </tr>
+              </tbody>
+
+         </table>
+    
+  </div><!end of veg list>
+  <! *************************************veg starers ***************************************************************************************>
+<! ************************************************veg Gravy ********************************************************************************>
+  <div id="veglistgravy">  
+  <br>
+   <h3>Veg. Gravy</h3>
+  
+            
+            <table class="table table-condensed table-striped" >
+              <thead>
+              <tr>
+                  <th>Item</th>
+                  <th>Price</th>
+                  <th></th>
+                  <th>quantity</th>
+                  <th></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <script>
+  for(var i=0;i<VGravyList.length;i++)
+     {
+      document.write("<tr>");
+
+       document.write("<td>")
+       document.write(VGravyList[i].itemName);
+       document.write("</td>");  
+
+     
+       document.write("<td>")
+       document.write(VGravyList[i].itemPrice);
+       document.write("</td>");
+
+    
+       document.write('<td style="text-align:right">')
+       document.write('<BUTTON onclick="plus('+"'vg',"+i+');" class="btn btn-default">+</BUTTON>');
+       document.write("</td>"); 
+
+       document.write("<td>")
+       document.write('<input type="text" id="vg'+i+'" size="1" class="form-control"  value="0" disabled>');	
+       document.write("</td>");  
+
+       document.write('<td>')
+       document.write('<BUTTON onclick="minus('+"'vg',"+i+');" class="btn btn-default">-</BUTTON>');
+       document.write("</td>"); 
+
+
+     document.write("</tr>");
+    }
+   
+   </script>
+
+    <tr>
+       <td colspan="3" style="text-align:center;">
+       <BUTTON onclick='addBasket("vg",VGravyList);'  class="btn btn-default">Add to Bucket</BUTTON>
+       </td>
+    </tr>
+
+    </tbody>
+   </table>
+    
+  </div><!end of veg list>
+  <! ********************************************************veg Gravy ***********************************************************************>
+</div><!main veg div end here>
+<!**********************************************************Veg Section End here ******************************************************>
+
+       
+        
+
+
+
+
+
+
+
+
+
+
+<!**********************************************************Non Veg Section Start here ******************************************************> 
+<div id="NonVegSec">
+   <ul class="nav nav-tabs">
+       <li id="nvs" ><a href="#">Starters</a></li>
+       <li id="nvg" ><a href="#">Gravey</a></li>   
+  </ul> 
+  <! *******************************Non Vegstaters********************************************************************************************>
+            <div id="nonVegStarters">  
+            <br>
+            
+
+            <h3>Non Veg. Starters</h3>
+
+            
+            <table class="table table-condensed table-striped" >
+              <thead>
+              <tr>
+                  <th>Item</th>
+                  <th>Price</th>
+                  <th></th>
+                  <th>quantity</th>
+                  <th></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <script>
+                     for(var i=0;i<NonVegStartersList.length;i++)
+                        {
+                            document.write("<tr>");
+
+                              document.write("<td>")
+                              document.write(NonVegStartersList[i].itemName);
+                              document.write("</td>");  
+
+     
+                              document.write("<td>")
+                              document.write(NonVegStartersList[i].itemPrice);
+                              document.write("</td>");
+
+                              
+                              document.write('<td style="text-align:right">')
+                              document.write('<BUTTON onclick="plus('+"'nvs',"+i+');" class="btn btn-default">+</BUTTON>');
+                              document.write("</td>"); 
+
+
+                              document.write("<td>")
+                              document.write('<input type="text" id="nvs'+i+'" size="1" class="form-control" value="0" disabled>');
+                              document.write("</td>");  
+
+
+                              document.write("<td>")
+                              document.write('<BUTTON onclick="minus('+"'nvs',"+i+');" class="btn btn-default">-</BUTTON>');
+                              document.write("</td>"); 
+
+
+
+                            document.write("</tr>");
+                        }
+   
+                  </script>
+
+                   <tr>
+                     <td colspan="3" style="text-align:center;">
+                     <BUTTON onclick='addBasket("nvs",NonVegStartersList);' class="btn btn-default">Add to Bucket</BUTTON>
+                     </td>
+                  </tr>
+              </tbody>
+
+         </table>
+    
+  </div><!end of non veg starter list>
+  <! *************************************Non veg starters end*********************************************************************************>
+<! ************************************************Non Veg Gravy ******************************************************************************>
+  <div id="nonVegGravy">  
+  <br>
+   <h3>Non Veg. Gravy</h3>
+  
+            
+            <table class="table table-condensed table-striped" >
+              <thead>
+              <tr>
+                  <th>Item</th>
+                  <th>Price</th>
+                  <th></th>
+                  <th>quantity</th>
+                  <th></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <script>
+  for(var i=0;i<NonVegGravyList.length;i++)
+     {
+      document.write("<tr>");
+
+       document.write("<td>")
+       document.write(NonVegGravyList[i].itemName);
+       document.write("</td>");  
+
+     
+       document.write("<td>")
+       document.write(NonVegGravyList[i].itemPrice);
+       document.write("</td>");
+
+    
+       document.write('<td style="text-align:right">')
+       document.write('<BUTTON onclick="plus('+"'nvg',"+i+');" class="btn btn-default">+</BUTTON>');
+       document.write("</td>"); 
+
+       document.write("<td>")
+       document.write('<input type="text" id="nvg'+i+'" size="1" class="form-control"  value="0" disabled>');	
+       document.write("</td>");  
+
+       document.write('<td>')
+       document.write('<BUTTON onclick="minus('+"'nvg',"+i+');" class="btn btn-default">-</BUTTON>');
+       document.write("</td>"); 
+
+
+     document.write("</tr>");
+    }
+   
+   </script>
+
+    <tr>
+       <td colspan="3" style="text-align:center;">
+       <BUTTON onclick='addBasket("nvg",NonVegGravyList);'  class="btn btn-default">Add to Bucket</BUTTON>
+       </td>
+    </tr>
+
+    </tbody>
+   </table>
+    
+  </div><!end of non veg list>
+  <! *****************************************************Non veg Gravy end********************************************************************>
+</div><!main non veg div end here>
+<!*******************************************************NonVeg Section End here *************************************************************>
+
+
+
+
+
+
+
+
+
+<!********************************************************** Sea Food start*******************************************************************>
+
+
+
+  <div id="seaFood">  
+  <br>
+   <h3>Sea Food</h3>
+  
+            
+            <table class="table table-condensed table-striped" >
+              <thead>
+              <tr>
+                  <th>Item</th>
+                  <th>Price</th>
+                  <th></th>
+                  <th>quantity</th>
+                  <th></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <script>
+  for(var i=0;i<SeaFoodList.length;i++)
+     {
+      document.write("<tr>");
+
+       document.write("<td>")
+       document.write(SeaFoodList[i].itemName);
+       document.write("</td>");  
+
+     
+       document.write("<td>")
+       document.write(SeaFoodList[i].itemPrice);
+       document.write("</td>");
+
+    
+       document.write('<td style="text-align:right">')
+       document.write('<BUTTON onclick="plus('+"'sf',"+i+');" class="btn btn-default">+</BUTTON>');
+       document.write("</td>"); 
+
+       document.write("<td>")
+       document.write('<input type="text" id="sf'+i+'" size="1" class="form-control"  value="0" disabled>');	
+       document.write("</td>");  
+
+       document.write('<td>')
+       document.write('<BUTTON onclick="minus('+"'sf',"+i+');" class="btn btn-default">-</BUTTON>');
+       document.write("</td>"); 
+
+
+     document.write("</tr>");
+    }
+   
+   </script>
+
+    <tr>
+       <td colspan="3" style="text-align:center;">
+       <BUTTON onclick='addBasket("sf",SeaFoodList);'  class="btn btn-default">Add to Bucket</BUTTON>
+       </td>
+    </tr>
+
+    </tbody>
+   </table>
+    
+  </div><!end of sea food list>
+
+<!********************************************************** Sea Food end*******************************************************************>
+
+
+<!********************************************************** Roti & Paratha start*************************************************************>
+
+  <div id="rotiParatha">  
+  <br>
+   <h3>Roti and Paratha</h3>
+  
+            
+            <table class="table table-condensed table-striped" >
+              <thead>
+              <tr>
+                  <th>Item</th>
+                  <th>Price</th>
+                  <th></th>
+                  <th>quantity</th>
+                  <th></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <script>
+  for(var i=0;i<RotiParatha.length;i++)
+     {
+      document.write("<tr>");
+
+       document.write("<td>")
+       document.write(RotiParatha[i].itemName);
+       document.write("</td>");  
+
+     
+       document.write("<td>")
+       document.write(RotiParatha[i].itemPrice);
+       document.write("</td>");
+
+    
+       document.write('<td style="text-align:right">')
+       document.write('<BUTTON onclick="plus('+"'rp',"+i+');" class="btn btn-default">+</BUTTON>');
+       document.write("</td>"); 
+
+       document.write("<td>")
+       document.write('<input type="text" id="rp'+i+'" size="1" class="form-control"  value="0" disabled>');	
+       document.write("</td>");  
+
+       document.write('<td>')
+       document.write('<BUTTON onclick="minus('+"'rp',"+i+');" class="btn btn-default">-</BUTTON>');
+       document.write("</td>"); 
+
+
+     document.write("</tr>");
+    }
+   
+   </script>
+
+    <tr>
+       <td colspan="3" style="text-align:center;">
+       <BUTTON onclick='addBasket("rp",RotiParatha);'  class="btn btn-default">Add to Bucket</BUTTON>
+       </td>
+    </tr>
+
+    </tbody>
+   </table>
+    
+  </div><!end of roti paratha list>
+
+<!********************************************************** Roti & Paratha end****************************************************************>
+<!******************************************************** Rice Noodles start *****************************************************************>
+  <div id="riceNoodles">  
+  <br>
+   <h3>Rice Noodles</h3>
+  
+            
+            <table class="table table-condensed table-striped" >
+              <thead>
+              <tr>
+                  <th>Item</th>
+                  <th>Price</th>
+                  <th></th>
+                  <th>quantity</th>
+                  <th></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <script>
+  for(var i=0;i<RiceAndNoodles.length;i++)
+     {
+      document.write("<tr>");
+
+       document.write("<td>")
+       document.write(RiceAndNoodles[i].itemName);
+       document.write("</td>");  
+
+     
+       document.write("<td>")
+       document.write(RiceAndNoodles[i].itemPrice);
+       document.write("</td>");
+
+    
+       document.write('<td style="text-align:right">')
+       document.write('<BUTTON onclick="plus('+"'rn',"+i+');" class="btn btn-default">+</BUTTON>');
+       document.write("</td>"); 
+
+       document.write("<td>")
+       document.write('<input type="text" id="rn'+i+'" size="1" class="form-control"  value="0" disabled>');	
+       document.write("</td>");  
+
+       document.write('<td>')
+       document.write('<BUTTON onclick="minus('+"'rn',"+i+');" class="btn btn-default">-</BUTTON>');
+       document.write("</td>"); 
+
+
+     document.write("</tr>");
+    }
+   
+   </script>
+
+    <tr>
+       <td colspan="3" style="text-align:center;">
+       <BUTTON onclick='addBasket("rn",RiceAndNoodles);'  class="btn btn-default">Add to Bucket</BUTTON>
+       </td>
+    </tr>
+
+    </tbody>
+   </table>
+    
+  </div><!end of rice and noodles list>
+
+<!******************************************************** Rice Noodles End *****************************************************************>
+
+<!******************************************************** Miscellaneous start*****************************************************************>
+<div id="miscellaneous">
+   <ul class="nav nav-tabs">
+       <li id="bm" ><a href="#">Biryani</a></li>
+       <li id="rm" ><a href="#">Raita</a></li> 
+       <li id="lm" ><a href="#">Lassi</a></li>   
+  </ul> 
+  <! *******************************Biryani start********************************************************************************************>
+            <div id="Biryani">  
+            <br>
+            
+
+            <h3>Biryani</h3>
+
+            
+            <table class="table table-condensed table-striped" >
+              <thead>
+              <tr>
+                  <th>Item</th>
+                  <th>Price</th>
+                  <th></th>
+                  <th>quantity</th>
+                  <th></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <script>
+                     for(var i=0;i<Biryanis.length;i++)
+                        {
+                            document.write("<tr>");
+
+                              document.write("<td>")
+                              document.write(Biryanis[i].itemName);
+                              document.write("</td>");  
+
+     
+                              document.write("<td>")
+                              document.write(Biryanis[i].itemPrice);
+                              document.write("</td>");
+
+                              
+                              document.write('<td style="text-align:right">')
+                              document.write('<BUTTON onclick="plus('+"'b',"+i+');" class="btn btn-default">+</BUTTON>');
+                              document.write("</td>"); 
+
+
+                              document.write("<td>")
+                              document.write('<input type="text" id="b'+i+'" size="1" class="form-control" value="0" disabled>');
+                              document.write("</td>");  
+
+
+                              document.write("<td>")
+                              document.write('<BUTTON onclick="minus('+"'b',"+i+');" class="btn btn-default">-</BUTTON>');
+                              document.write("</td>"); 
+
+
+
+                            document.write("</tr>");
+                        }
+   
+                  </script>
+
+                   <tr>
+                     <td colspan="3" style="text-align:center;">
+                     <BUTTON onclick='addBasket("b",Biryanis);' class="btn btn-default">Add to Bucket</BUTTON>
+                     </td>
+                  </tr>
+              </tbody>
+
+         </table>
+    
+  </div><!end of Biryani list>
+  <! *************************************Biryani end ***************************************************************************************>
+<! ************************************************ Raita start ******************************************************************************>
+  <div id="Raita">  
+  <br>
+   <h3>Raita</h3>
+  
+            
+            <table class="table table-condensed table-striped" >
+              <thead>
+              <tr>
+                  <th>Item</th>
+                  <th>Price</th>
+                  <th></th>
+                  <th>quantity</th>
+                  <th></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <script>
+  for(var i=0;i<Raitas.length;i++)
+     {
+      document.write("<tr>");
+
+       document.write("<td>")
+       document.write(Raitas[i].itemName);
+       document.write("</td>");  
+
+     
+       document.write("<td>")
+       document.write(Raitas[i].itemPrice);
+       document.write("</td>");
+
+    
+       document.write('<td style="text-align:right">')
+       document.write('<BUTTON onclick="plus('+"'r',"+i+');" class="btn btn-default">+</BUTTON>');
+       document.write("</td>"); 
+
+       document.write("<td>")
+       document.write('<input type="text" id="r'+i+'" size="1" class="form-control"  value="0" disabled>');	
+       document.write("</td>");  
+
+       document.write('<td>')
+       document.write('<BUTTON onclick="minus('+"'r',"+i+');" class="btn btn-default">-</BUTTON>');
+       document.write("</td>"); 
+
+
+     document.write("</tr>");
+    }
+   
+   </script>
+
+    <tr>
+       <td colspan="3" style="text-align:center;">
+       <BUTTON onclick='addBasket("r",Raitas);'  class="btn btn-default">Add to Bucket</BUTTON>
+       </td>
+    </tr>
+
+    </tbody>
+   </table>
+    
+  </div><!end of veg list>
+  <! ********************************************************Raita end ***********************************************************************>
+<! ************************************************ Lassi start ******************************************************************************>
+  <div id="Lassi">  
+  <br>
+   <h3>Lassi</h3>
+  
+            
+            <table class="table table-condensed table-striped" >
+              <thead>
+              <tr>
+                  <th>Item</th>
+                  <th>Price</th>
+                  <th></th>
+                  <th>quantity</th>
+                  <th></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <script>
+  for(var i=0;i<Lassi.length;i++)
+     {
+      document.write("<tr>");
+
+       document.write("<td>")
+       document.write(Lassi[i].itemName);
+       document.write("</td>");  
+
+     
+       document.write("<td>")
+       document.write(Lassi[i].itemPrice);
+       document.write("</td>");
+
+    
+       document.write('<td style="text-align:right">')
+       document.write('<BUTTON onclick="plus('+"'l',"+i+');" class="btn btn-default">+</BUTTON>');
+       document.write("</td>"); 
+
+       document.write("<td>")
+       document.write('<input type="text" id="l'+i+'" size="1" class="form-control"  value="0" disabled>');	
+       document.write("</td>");  
+
+       document.write('<td>')
+       document.write('<BUTTON onclick="minus('+"'l',"+i+');" class="btn btn-default">-</BUTTON>');
+       document.write("</td>"); 
+
+
+     document.write("</tr>");
+    }
+   
+   </script>
+
+    <tr>
+       <td colspan="3" style="text-align:center;">
+       <BUTTON onclick='addBasket("l",Lassi);'  class="btn btn-default">Add to Bucket</BUTTON>
+       </td>
+    </tr>
+
+    </tbody>
+   </table>
+    
+  </div><!end of veg list>
+  <! ********************************************************Lassi end ***********************************************************************>
+
+</div><!main miscellaneous div end here>
+
+<!******************************************************** Miscellaneous End*****************************************************************>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       </div><! end of main content table>
+
+<!********************************************************main content section End here****************************************************>
+
+
+
+
+<!********************************************************Your Order section start here****************************************************>
+
+      <div class="col-md-3 col-xs=4 col-sm=4" >
+         
+             <div id="orderDisplay" style="background: url(images/foodBucket.jpeg) no-repeat;">
+             </div>
+   
+
+       </div>
+
+<!********************************************************your order section end here***************************************************>       
+
+
+  </div><!row for main content and order end here>
+</div><!fluid content end here>
+
+</body>
+</html>

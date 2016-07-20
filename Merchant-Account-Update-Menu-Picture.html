@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Food Ordering</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+  <script src="JavaScript/jquery.js"> </script>
+  <script src=" bootstrap/js/bootstrap.min.js"></script>
+
+<!*********************************validation script here************************************************************************>
+<script>
+
+$(document).ready(function(){
+
+
+var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                
+
+                      var result=xmlhttp.responseText;
+   
+                if(result.search("notlogged") > -1){
+                 
+                       window.location = "Merchant-login.html";       
+                       }
+                
+                    else {
+                            $("#website_picture_status_active").hide();
+                           document.getElementById("usrName").innerHTML=" welcome "+result;
+                                                    
+                         }    
+
+            }//if
+        }//xmlhttp
+        xmlhttp.open("GET", "Merchant-Get-Name.php", true);
+        xmlhttp.send();
+    
+
+
+
+
+}); //end of ready
+
+
+</script>
+<!************************************************file upload script start******************************************************************>
+<script>
+
+$(document).ready(function(){
+
+$("#loading").hide();
+
+});
+
+$(document).ready(function(){
+    $("#upload").click(function(){
+        $("#loading").show();
+        var text="";
+     
+      var file_data = $('#sortpicture').prop('files')[0];   
+    var form_data = new FormData();                  
+    form_data.append('upfile', file_data);
+    $.ajax({
+                url: 'update-website-menu-upload.php', // point to server-side PHP script 
+                dataType: 'text',  // what to expect back from the PHP script, if anything
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,                         
+                type: 'post',
+                success: function(php_script_response){
+                    
+                   $("#loading").hide();
+                         
+                  if(php_script_response.search("uploads") > -1){
+                   text+='<button type="submit" id="upload_more" onclick="location.reload(true)" style="background-color:#009900;color:white" ><i class="glyphicon glyphicon-arrow-up"></i>UPLOAD MORE</button>';
+                   text+='<button type="submit" id="continue" onclick="newPage()" style="background-color:#009900;color:white;" ><i class="glyphicon glyphicon-arrow-right"></i>DONE</button>';
+                    text+="</br></br>";
+                   text+="<img class='img-responsive' src='"+php_script_response+"' />";                   
+                   
+                   
+                   
+                   $("#text").html(text);
+                   
+      
+                   }
+
+                else if(php_script_response.search("notlogged") > -1){
+                 
+                       window.location = "Merchant-login.html";       
+                       }
+                  else{
+             
+                        
+                        text+="<h3 class='text-danger'><i class='text-danger glyphicon glyphicon-remove'></i>"+php_script_response+"</h3>";
+                       $("#text").html(text);
+                       } 
+
+                }
+     });
+
+
+
+
+    });
+});
+
+
+</script>
+
+<script>
+
+function newPage(){
+
+$(document).ready(function(){
+
+
+var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                
+
+                      var result=xmlhttp.responseText;
+   
+                if(result.search("notlogged") > -1){
+                 
+                       window.location = "Merchant-login.html";       
+                       }
+                
+                    else {
+                          $("#website_picture_status_active").show();
+                          $("#text").html("");
+                                                    
+                         }    
+
+            }//if
+        }//xmlhttp
+        xmlhttp.open("GET", "first-visit-status-change.php", true);
+        xmlhttp.send();
+    
+
+
+
+
+}); //end of ready
+
+
+
+
+
+
+
+
+
+
+}
+</script>
+
+
+
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row">
+       <div class="col-md-12 col-xs-12 col-sm-12 col-lg=12">
+        
+           <nav class="navbar navbar-inverse navbar-fixed-top">
+  
+               <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                  </button>
+               <a class="navbar-brand" href="#"><span class="bg-primary" style="font-weight:bold">WebsiteForOnlineFoodDelivery.in</span> </a>                
+               
+               </div>
+            <div class="collapse navbar-collapse" id="myNavbar" >
+               <div class="nav pull-right">
+                  <ul class="nav navbar-nav">
+                  
+                     <li class="active"><a  style="font-weight:bold"><i class="glyphicon glyphicon-user"></i><span id="usrName"> </span> </a></li>
+                     <li><a href="logout.php" style="font-weight:bold"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+                  </ul>
+                </div>
+              </div>
+           </div>
+            </nav>
+      
+       </div><!col end here>
+
+  </div><!row for logo end here>
+
+<div class="row">
+
+<div class="col-md-12 col-xs-12 col-sm-12 col-lg=12" style="margin-top:90px">
+<ul class="nav nav-pills">
+  <li><a href="Merchant-Account.html">ACCOUNT SUMMARY</a></li>
+   <li><a href="Merchant-Account-Update-Password.html">UPDATE PASSWORD</a></li>
+   <li><a href="Merchant-Account-Update-Website-Picture.html">UPDATE WEBSITE PIC</a></li>
+   <li><a href="Merchant-Account-Update-logo.html">UPDATE WEBSITE LOGO</a></li>
+   <li class="active"><a href="Merchant-Account-Update-Menu-Picture.html">UPDATE MENU CHART</a></li>
+   <li><a href="update-website-open-close-time.html">UPDATE RESTAURANT TIMING</a></li>
+</div>
+
+
+</div><!end of row for form>
+<!******************************************************************END OF TAB MENU*******************************************************>
+
+<div class="row">
+      <div class="col-md-2 col-lg=2 hidden-xs hidden-sm">
+
+      </div>
+<!********************************************************start******************************************************************>
+<div class="col-md-8 col-xs-12 col-sm-12 col-lg=8" style="margin-top:10px;">
+
+<h1 class="text-info" >PLEASE UPLOAD YOUR MENU CHART PIC</h1>
+<p  class="text-warning">Please upload the pic of your menu card in which menu items and their prices clearly shown.If u have more than one pic of your menu, then u can upload them one by one</p>
+<br>
+ 
+
+
+</div>
+<!********************************************************End******************************************************************>
+       <div class="col-md-2 col-lg=2 hidden-xs hidden-sm">
+
+      </div>
+
+</div><!end of row for form>
+<!********************************************row 1 start here*******************************************************************>
+<div class="row">
+      <div class="col-md-2 col-lg=2 hidden-xs hidden-sm">
+
+      </div>
+
+<div class="col-md-8 col-xs-12 col-sm-12 col-lg=8" style="margin-top:10px;">
+
+<table class="table table-condensed">
+  <tbody>
+
+  <tr>
+        <td><input id="sortpicture" type="file" name="sortpic"   /></td>
+        <td><button id="upload" style="background-color:#CC3300;color:white">Upload</button></td>
+        
+  </tr>
+    </tbody>
+</table>
+</div>
+
+
+
+       <div class="col-md-2 col-lg=2 hidden-xs hidden-sm">
+
+      </div>
+
+</div><!end of row for form>
+
+
+<!********************************************row 1 end  here*******************************************************************>
+<!********************************************row 2 start here*******************************************************************>
+<div class="row">
+      <div class="col-md-2 col-lg=2 hidden-xs hidden-sm">
+
+      </div>
+
+<div class="col-md-8 col-xs-12 col-sm-12 col-lg=8" style="margin-top:30px;">
+<span id="website_picture_status_active" class="text-success" style="font-size:25px">Your website will be updated soon, you will get email notification once it is updated</span><br/><br/>
+<div id="text">
+</div>
+<div id="loading"><img class="img-responsive" src="images/loader.gif" alt="please wait"> </div>
+</div>
+
+
+
+       <div class="col-md-2 col-lg=2 hidden-xs hidden-sm">
+
+      </div>
+
+</div><!end of row for form>
+
+
+<!********************************************row 2 end  here*******************************************************************>
+
+<br/><br/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div><!fluid content end here>
+
+</body>
+</html>

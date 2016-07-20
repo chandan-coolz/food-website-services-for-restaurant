@@ -1,0 +1,114 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Food Ordering</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+  <script src="JavaScript/jquery.js"> </script>
+  <script src=" bootstrap/js/bootstrap.min.js"></script>
+
+<script>
+$(document).ready(function(){
+
+
+var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                
+
+                      var result=xmlhttp.responseText;
+                  if(result.search("Error:") > -1)
+
+                       {
+                        
+                        
+                         window.location = "error.html";
+  
+                         
+                          
+                       }
+                else if(result.search("notlogged") > -1){
+                 
+                       window.location = "Merchant-login.html";       
+                       }
+                
+                    else {
+                       
+          
+                            
+                         }    
+
+            }//if
+        }//xmlhttp
+        xmlhttp.open("GET", "Merchant-Payment-success.php", true);
+        xmlhttp.send();
+    
+
+
+
+
+}); //end of ready
+
+</script>
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row">
+       <div class="col-md-12 col-xs-12 col-sm-12 col-lg=12">
+        
+           <nav class="navbar navbar-inverse navbar-fixed-top">
+  
+               <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                  </button>
+               <a class="navbar-brand" href="#"><span class="bg-primary" style="font-weight:bold">WebsiteForOnlineFoodDelivery.in</span></a>                
+               
+               </div>
+              <div class="collapse navbar-collapse" id="myNavbar" >
+               <div class="nav pull-right">
+                  <ul class="nav navbar-nav">
+                   	
+                     <li><a href="#" style="font-weight:bold"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                     <li><a href="#" style="font-weight:bold"><span class="glyphicon glyphicon-lock"></span> Sing In</a></li>
+                     <li class="active"><a href="#" style="font-weight:bold"> Payment Success</a></li>
+
+                  </ul>
+                </div>
+              </div>
+             </div>
+            </nav>
+      
+       </div><!col end here>
+
+  </div><!row for logo end here>
+
+<div class="row">
+      <div class="col-md-2 col-lg=2 hidden-xs hidden-sm">
+
+      </div>
+<!********************************************************sinup form start******************************************************************>
+<div class="col-md-8 col-xs-12 col-sm-12 col-lg=8" style="margin-top:70px">
+ <h1 class="text-info" style="margin-left:50px">PAYMENT SUCCESS</h1>
+<br><br> 
+ <p class="text-success" style="font-size:20px"><i class="glyphicon glyphicon-ok-sign"></i>Thankyou, we successfully received the payment made by you.<a href="Merchant-login.html"> CLICK HERE TO LOGIN</a></p>
+</div>
+<!********************************************************sinup form End******************************************************************>
+       <div class="col-md-2 col-lg=2 hidden-xs hidden-sm">
+
+      </div>
+
+</div><!end of row for form>
+
+
+
+
+
+</div><!fluid content end here>
+
+</body>
+</html>

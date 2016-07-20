@@ -1,0 +1,655 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Food Ordering</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <script src="JavaScript/jquery.js"> </script>
+  <script src=" bootstrap/js/bootstrap.min.js"></script>
+
+  <script src="JavaScript/menuList.js"> </script>
+
+<!********************************************script to add to the basket start here**********************************************************>
+<script>
+
+if(sessionStorage.length==0)
+{
+
+  window.location = "error.html";
+
+}  
+var emailTracker=false; /* to track email */
+var text="";
+var itemText="";
+ var itemKey = JSON.parse(sessionStorage.itemKey);
+ var itemName = JSON.parse(sessionStorage.itemName);
+var itemPrice = JSON.parse(sessionStorage.itemPrice);
+var itemQty = JSON.parse(sessionStorage.itemQty);
+var totalAmount=sessionStorage.totalAmount;
+
+text+='<h4 class="bg-primary" style="text-align:center">Your Order</h4>';
+text+='<table class="table table-condensed table-striped"> <thead> <tr> <th>item</th> <th>Qty</th> <th>Price</th> </tr> </thead> <tbody>';
+
+for(var i=0;i<itemKey.length;i++)   
+                             {
+
+                       if(itemQty[i]>0)
+                                 {
+                                     text+="<tr>";
+             
+                                     text+='<td>';
+                                       text+=itemName[i];
+                                     text+="</td>";
+
+                                     text+='<td>';
+                                      text+=itemQty[i];
+                                     text+="</td>";
+
+                                     text+='<td>';
+                                      text+=itemPrice[i];
+                                     text+="</td>";
+
+                                      text+="</tr>";
+                                     
+                                      itemText+=itemName[i];
+                                      itemText+=":";  
+                                      itemText+=itemQty[i];
+                                      itemText+=","; 
+
+                                  }
+                                  
+                             }
+
+                       
+                                 
+                                     text+="<tr>";
+             
+                                     text+='<td>';
+                                       text+="Total Amount =";
+                                     text+="</td>";
+                                   
+                                     text+='<td colspan="2">';
+                                       text+=totalAmount;
+                                     text+="</td>";
+                                    text+="</tr>";
+                                    text+="</tbody>"
+                                   text+="</table>";
+                                   text+="<br><br><center>";
+                                  text+='<form action="index.html" >';
+  
+                                  text+='<input type="submit" class="form-control" value="Back to Menu" style="color:#FF0000">';
+                                  text+= '</form>';
+                                  text+='<br>';
+                                   text+='<br>';
+
+
+
+
+$(document).ready(function(){
+              
+               
+                 $("#orderDisplay").html(text);  
+
+});
+
+</script>
+
+<!********************************************script to display order details End here********************************************************>
+
+
+
+<!*********************************validation script here************************************************************************>
+<script>
+/*form validation */
+
+ /* email validation function */
+
+    function emailValidation(){
+  
+      var emailPattern=/^[A-Za-z]+[A-Za-z0-9]*@[A-Za-z]+.[A-Za-z]+$/; 
+     var email=document.getElementById("email").value;
+
+       if(!emailPattern.test(email)){
+                      
+                                     document.getElementById("emailError").innerHTML="Please enter a valid email address";  
+                                        return false;                                        
+ 
+
+                                   }
+       else                        {
+
+                                      document.getElementById("emailError").innerHTML="";
+                                       return true;
+                                   }
+    }/*fun */
+
+ /* end of email validation function */
+
+/*mobile no. validation */
+
+function mobileValidation(){
+
+      var mobileExpression=/^[0-9]{10}$/;
+       var mobile=document.getElementById("mobile").value;
+   
+      if(!mobileExpression.test(mobile)){
+                      
+                                     document.getElementById("mobileError").innerHTML="Please enter a valid mobile number";  
+                                        return false; 
+
+
+                                   }
+       else                        {
+
+                                      document.getElementById("mobileError").innerHTML="";
+                                       return true;
+                                   }    
+}
+/* mobile no. validation */
+
+
+/*  pincode validation */
+
+function postalCodeValidation(){
+
+       var codeExpression=/^[0-9]{6}$/;
+       var pincode=document.getElementById("postalcode").value;
+   
+   if(pincode!=0)
+      {
+      if(!codeExpression.test(pincode)){
+                      
+                                     document.getElementById("postalcodeError").innerHTML="Please enter a valid  Postal Code";  
+                                         
+                                                return false;
+
+                                   }
+       else                        {
+
+                                      document.getElementById("postalcodeError").innerHTML="";
+                                            return true;
+                                   }    
+     }
+
+ else                 
+     {
+
+                                      document.getElementById("postalcodeError").innerHTML="";
+                                        return true;
+     }
+ 
+
+
+}
+/* pincode validation */
+
+/*name validation */
+function nameValidation()
+{
+var name=document.getElementById("name").value;
+  if(name.length==0)
+       {
+        document.getElementById("nameError").innerHTML="Please enter the name";
+        return false;
+       }
+   else{
+       document.getElementById("nameError").innerHTML="";
+        return true;
+       }
+
+}
+/*name validation*/
+
+/*password validation */
+
+function passwordValidation()
+{
+var password=document.getElementById("password").value;
+  if(password.length<=5)
+       {
+        document.getElementById("passwordError").innerHTML="Password length must be greater than 5";
+         return false;
+       }
+   else{
+       document.getElementById("passwordError").innerHTML="";
+       return true;
+       }
+
+}
+
+/*password validation*/
+
+/*Confirmpassword validation */
+
+function confirmPasswordValidation()
+{
+var password=document.getElementById("password").value;
+var confirmPassword=document.getElementById("confirmPassword").value;
+  if(password!=confirmPassword)
+       {
+        document.getElementById("confirmPasswordError").innerHTML="Password does not match";
+         return false;
+       }
+   else{
+       document.getElementById("confirmPasswordError").innerHTML="";
+       return true;
+       }
+
+}
+
+/*Confirmpassword validation*/
+
+
+
+/*flat validation */
+
+function flatValidation()
+{
+var flat=document.getElementById("flat").value;
+  if(flat.length==0)
+       {
+        document.getElementById("flatError").innerHTML="Please enter the flat/House No./Name";
+        return false;
+       }
+   else{
+       document.getElementById("flatError").innerHTML="";
+       return true;
+       }
+
+}
+
+/*flat validation*/
+
+
+/*Apartment validation */
+
+function apartmentValidation()
+{
+var apartment=document.getElementById("apartment").value;
+  if(apartment.length==0)
+       {
+        document.getElementById("apartmentError").innerHTML="Please enter the Apartment/Locality name";
+         return false;
+       }
+   else{
+       document.getElementById("apartmentError").innerHTML="";
+        return true;
+       }
+
+}
+
+/*Apartment validation*/
+
+
+/*toSubmit function */
+ function toSubmit(){
+if(sessionStorage.length==0)
+{
+     window.location = "error.html";
+     return false;
+
+}  
+
+
+   document.getElementById("amountTotal").value=totalAmount;
+   document.getElementById("order_items").value=itemText;
+
+   emailValidation();
+   mobileValidation();
+   postalCodeValidation();
+   nameValidation();
+   passwordValidation();
+   flatValidation();
+   apartmentValidation();
+   confirmPasswordValidation();
+
+if(document.getElementById("TandC").checked)
+ {
+
+  if(emailValidation() && mobileValidation() && postalCodeValidation() && nameValidation() && passwordValidation() && flatValidation() && apartmentValidation() && confirmPasswordValidation() && emailTracker)
+         {
+           
+          
+        
+                 return true;
+
+
+          }
+  else   {
+           return false;
+
+         }
+  }
+
+
+else
+
+  {
+  document.getElementById("TandCError").innerHTML="Please accept the terms and conditions";
+   return false;
+  }
+ 
+}
+/*to submit function */
+
+</script>
+
+
+<script> 
+/* Terms and condition */
+
+$(document).ready(function(){
+    $("#flip").click(function(){
+        $("#panel").slideToggle("slow");
+    });
+});
+</script>
+
+
+<!********************************email checker script start here******************************************************************************>
+<script>
+function emailChecker() {
+   
+
+var x=emailValidation();
+if(x==true)
+  {
+    var email=document.getElementById("email").value;
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                   
+                  var result=xmlhttp.responseText;
+                  if(result.search("unsuccess") > -1)
+
+                       {
+                         document.getElementById("emailCheckError").style.color="red";
+                         document.getElementById("emailCheckError").innerHTML ="Email Id already register";
+                         emailTracker=false;
+                          
+                       }
+                    else {
+                            
+                             document.getElementById("emailCheckError").innerHTML ="";
+                            emailTracker=true;
+                         }
+            }
+        }
+        xmlhttp.open("GET", "emailChecker.php?email="+email, true);
+        xmlhttp.send();
+
+  }
+
+else
+  {
+   document.getElementById("emailCheckError").innerHTML ="";
+  }
+
+
+
+
+
+  
+}
+</script>
+<!********************************email checker script end here******************************************************************************>
+
+
+
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row" style="margin-top:50px">
+       <div class="col-md-4 hidden-xs hidden-sm">
+        
+       </div>
+
+       <div class="col-md-4 col-xs=12 col-sm=12" >
+         <img class="img-responsive" src="images/logo.png" alt="logo"> 
+       </div>
+
+       <div class="col-md-4 hidden-xs hidden-sm">
+       
+
+       </div>
+
+  </div><!row for logo end here>
+
+
+<!******************************************************menu row section start here*********************************************************>
+  <div class="row">
+
+
+       <div class="col-md-12 col-xs=12 col-sm=12">
+         
+           <nav class="navbar navbar-inverse navbar-fixed-top">
+              <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                  </button>  
+                 <a class="navbar-brand">Website Name</a>
+              </div> 
+
+              <div class="collapse navbar-collapse" id="myNavbar" >
+                   <ul class="nav navbar-nav">
+                        <li><a href="food-website-demo.html">Home</a></li>
+                        
+                
+                   </ul>
+              </div>
+          </nav>
+       </div><!end of column>
+
+
+
+  </div><!end of row for menu>
+
+<!******************************************************menu row section end here*********************************************************>
+
+
+
+
+<!********************************************************main content section start here****************************************************>
+ <div class="row">
+  
+
+       <div class="col-md-2 hidden-xs hidden-sm">
+         
+       </div>
+
+
+       <div class="col-md-7 col-xs=8 col-sm=8"><!main content>
+       
+<!**********************************************************Veg Section Start here ******************************************************> 
+   <ul class="nav nav-pills">
+       <li class="active" id="newCustomerLink" ><a href="checkout.html">New User</a></li>
+       <li id="oldCustomerLink" ><a href="customer-login.html">Already Have Account</a></li>   
+  </ul> 
+  
+
+  <! *******************************new Customer********************************************************************************************>
+<div id="newCustomerDiv">
+
+ <form id="newCustomer" Method="POST" action="Registration.php" role="form" onsubmit="return toSubmit()">
+
+  <table class="table table-condensed">
+    
+     <tr>
+           <td style="text-align:left;">Name</td>
+           <td style="text-align:left;"><input type="text" id="name" onchange="nameValidation()" maxlength="29" class="form-control" name="name" placeholder="Name"/></td>     
+  <td style="text-align:left;"><span style="color:red;" id="nameError"></span></td>
+</tr>
+<tr>
+           <td style="text-align:left;">Email</td>
+           <td style="text-align:left;"><input type="text" id="email" maxlength="40" class="form-control" name="email" placeholder="Email" onchange="emailChecker();"/></td>  
+           <td style="text-align:left;"><span style="color:red;" id="emailError"></span></td>   
+  
+</tr>
+
+<tr>
+          
+           <td></td>  
+           <td colspan="2" style="text-align:left;"><span  id="emailCheckError"></span></td>   
+  `	
+</tr>
+
+
+<tr>
+           <td style="text-align:left;">Password</td>
+           <td style="text-align:left;"><input type="password"  id="password" onchange="passwordValidation()" maxlength="20" class="form-control" name="password" placeholder="Password" /></td>     
+  <td style="text-align:left;"><span style="color:red;" id="passwordError"></span></td>
+</tr>
+
+<tr>
+           <td style="text-align:left;">Confirm Password</td>
+           <td style="text-align:left;"><input type="password"  id="confirmPassword" onchange="confirmPasswordValidation()" maxlength="20" class="form-control" name="confirnmPassword" placeholder="Confirm Password" /></td>     
+  <td style="text-align:left;"><span style="color:red;" id="confirmPasswordError"></span></td>
+</tr>
+
+
+
+<tr>
+           <td style="text-align:left;">Mobile</td>
+           <td style="text-align:left;"><select><option>+91</option></select><input type="text"  id="mobile" maxlength="10" class="form-control" name="mobile" placeholder="Mobile" onchange="mobileValidation()" /></td>     
+           <td style="text-align:left;"><span style="color:red;" id="mobileError"></span></td>
+</tr>
+
+
+<tr>
+           <td Colspan="2" style="text-align:left;" >Address</td>
+                
+  
+</tr>
+
+
+<tr>
+<td></td>
+           <td  style="text-align:left;" ><input type="text" id="company"  name="company" maxlength="20" class="form-control" placeholder="Company(optional)" /></td>
+                
+  
+</tr>
+
+
+
+
+
+
+<tr>
+          <td></td>
+           <td  style="text-align:left;" ><input type="text" id="flat" onchange="flatValidation()" maxlength="30" class="form-control"  name="flat" placeholder="Flat No. / Name" /></td>
+    
+           <td style="text-align:left;"><span style="color:red;" id="flatError"></span></td>            
+  
+</tr>
+
+<tr> 
+           <td></td>
+           <td  style="text-align:left;" ><input type="text" id="apartment" onchange="apartmentValidation()" maxlength="50" class="form-control"  name="locality" placeholder="Apartment/Locality name" /></td>
+            <td style="text-align:left;"><span style="color:red;" id="apartmentError"></span></td>    
+  
+</tr>
+
+
+<tr>
+           <td></td>
+           <td  style="text-align:left;" ><input type="text" id="postalcode" onchange="postalCodeValidation()"  maxlength="6" class="form-control" name="postalcode" placeholder="PostCode(optional)" /></td>
+                <td style="text-align:left;"><span style="color:red;" id="postalcodeError"></span></td>
+  
+</tr>
+
+<tr>
+           <td >Payment Method</td>
+           <td colspan="2"><b>COD<b></td>     
+  
+</tr>
+
+<tr>
+           <td colspan="3" ><div id="flip" class="bg-primary">Terms And Conditions</div>
+</td>
+               
+</tr>
+
+
+<tr>
+          
+           <td colspan="3"><div id="panel" style="display: none;">
+
+           
+              <p class="text-primary">* You shoud abide to company term and policy</p>
+              <p class="text-primary">* Once order is made is irrevocable</p>
+
+            
+            </div></td>     
+  
+</tr>
+
+
+
+<tr>
+           <td ><input type="radio" id="TandC" name="read" value="true" ></td>
+           <td colspan="3">Yes,I have read and accept terms and conditions</td>     
+  
+</tr>
+  
+<tr>
+          
+           <td colspan="3" style="text-align:left;color:red" ><span id="TandCError"></span></td>     
+  
+</tr>
+
+<tr>
+          <td><input type="hidden" id="amountTotal" name="amount"  value=""></td>
+          <td><input type="hidden" id="order_items" name="order_items" value="" ></td>
+               
+  
+</tr>
+
+
+<tr>
+           <td Colspan="3" style="text-align:center;"><input type="submit" value="Placed Order" class="btn btn-default" style="color:#003300;"  /></td>
+                
+  
+</tr>
+
+
+</table>
+</form>
+</div>
+
+  <! ********************************************************* new Customer End***************************************************************>
+
+
+
+
+
+
+
+
+ </div><! end of main content column>
+
+<!********************************************************main content section End here****************************************************>
+
+
+
+
+<!********************************************************Your Order section start here****************************************************>
+
+      <div class="col-md-3 col-xs=4 col-sm=4" >
+         
+             <div id="orderDisplay" style="background: url(images/foodBucket.jpeg) no-repeat;">
+             </div>
+   
+
+       </div>
+<!********************************************************your order section end here***************************************************>       
+
+
+  </div><!row for main content and order end here>
+</div><!fluid content end here>
+
+</body>
+</html>

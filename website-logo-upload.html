@@ -1,0 +1,252 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Food Ordering</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+  <script src="JavaScript/jquery.js"> </script>
+  <script src=" bootstrap/js/bootstrap.min.js"></script>
+
+<!************************************************file upload script start******************************************************************>
+<script>
+$(document).ready(function(){
+ $("#logoUpload").hide();
+$("#loading").hide();
+$("#continueButton").hide();
+
+});
+
+
+$(document).ready(function(){
+    $("#upload").click(function(){
+       $("#loading").show();
+        var text="";
+      var file_data = $('#sortpicture').prop('files')[0];   
+    var form_data = new FormData();                  
+    form_data.append('upfile', file_data);
+    $.ajax({
+                url: 'website-logo-upload.php', // point to server-side PHP script 
+                dataType: 'text',  // what to expect back from the PHP script, if anything
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,                         
+                type: 'post',
+                success: function(php_script_response){
+                    
+                   $("#loading").hide();
+       
+                  if(php_script_response.search("uploads") > -1){
+
+
+
+                   text+='<button type="submit" onclick="newPage()" id="continue" class="pull-right"  style="background-color:#009900;color:white" ><i class="glyphicon glyphicon-arrow-right"></i>  CONTINUE</button>';
+                    text+="</br></br>";
+                   text+="<img id='image' class='img-responsive' src='"+php_script_response+"' />";                   
+                  
+                   
+                   $("#text").html(text);
+                   }
+                  
+                else if(php_script_response.search("notlogged") > -1){
+                 
+                       window.location = "Merchant-login.html";       
+                       }
+
+                  else{
+                        
+                        text+="<h3 class='text-danger'><i class='text-danger glyphicon glyphicon-remove'></i>"+php_script_response+"</h3>";
+                       $("#text").html(text);
+                       } 
+
+                }
+     });
+
+
+
+
+    });
+});
+
+
+</script>
+<script>
+
+function newPage(){
+
+window.location = "website-menu-upload.html";
+
+}
+</script>
+
+<!************************************************file upload script end******************************************************************>
+<!**************************************************radio button toggle********************************************************************>
+<script>
+$(document).ready(function(){
+
+    $('input[type="radio"]').click(function(){
+
+        if($(this).attr("value")=="providedByYou"){
+
+            
+            $("#continueButton").show();
+            $("#logoUpload").hide();
+            $("#continue").hide();
+            $("#image").hide();
+        }
+
+        if($(this).attr("value")=="mine"){
+
+            $("#logoUpload").show();
+            $("#continueButton").hide();
+            $("#continue").show();
+            $("#image").show();
+        }
+
+
+    });
+
+});
+</script>
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row">
+       <div class="col-md-12 col-xs-12 col-sm-12 col-lg=12">
+        
+           <nav class="navbar navbar-inverse navbar-fixed-top">
+  
+               <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                  </button>
+               <a class="navbar-brand" href="#"><span class="bg-primary" style="font-weight:bold">WebsiteForOnlineFoodDelivery.in</span> </a>                
+               
+               </div>
+              <div class="collapse navbar-collapse" id="myNavbar" >
+               <div class="nav pull-right">
+                  <ul class="nav navbar-nav">
+                  
+                     <li class="active"><a style="font-weight:bold">Upload Your Logo</a></li>
+
+
+                  </ul>
+                </div>
+              </div>
+             </div>
+            </nav>
+      
+       </div><!col end here>
+
+  </div><!row for logo end here>
+
+<div class="row">
+      <div class="col-md-2 col-lg=2 hidden-xs hidden-sm">
+
+      </div>
+<!********************************************************start******************************************************************>
+<div class="col-md-8 col-xs-12 col-sm-12 col-lg=8" style="margin-top:50px;">
+
+<h1 class="text-info" >PLEASE UPLOAD THE LOGO OF YOUR SHOP</h1>
+<!p  class="text-warning"><!/p>
+<br>
+ 
+
+
+</div>
+<!********************************************************End******************************************************************>
+       <div class="col-md-2 col-lg=2 hidden-xs hidden-sm">
+
+      </div>
+
+</div><!end of row for form>
+<!********************************************row 1 start here*******************************************************************>
+<div class="row">
+      <div class="col-md-2 col-lg=2 hidden-xs hidden-sm">
+
+      </div>
+
+<div class="col-md-8 col-xs-12 col-sm-12 col-lg=8" style="margin-top:10px;">
+
+ <form role="form">
+    <div class="radio">
+      <label><input type="radio" name="optradio" value="providedByYou">I want to use logo provided by website4fooddelivery.in</label>
+    </div>
+    <div class="radio">
+      <label><input type="radio" name="optradio" value="mine">Yes, i have my own logo</label>
+    </div>
+    
+  </form>
+  
+
+
+
+
+
+
+<div id="logoUpload">
+<table class="table table-condensed">
+  <tbody>
+
+  <tr>
+        <td><input id="sortpicture" type="file" name="sortpic"   /></td>
+        <td><button id="upload" style="background-color:#CC3300;color:white">Upload</button></td>
+        
+  </tr>
+    </tbody>
+</table>
+</div>
+
+<div id="continueButton">
+
+<button type="submit" onclick="window.location = 'website-nologo-upload.php';" class="pull-right"  style="background-color:#009900;color:white" ><i class="glyphicon glyphicon-arrow-right"></i>  CONTINUE</button>
+</div>
+
+
+</div>
+
+
+
+
+
+       <div class="col-md-2 col-lg=2 hidden-xs hidden-sm">
+
+      </div>
+
+</div><!end of row for form>
+
+
+<!********************************************row 1 end  here*******************************************************************>
+<!********************************************row 2 start here*******************************************************************>
+<div class="row">
+      <div class="col-md-2 col-lg=2 hidden-xs hidden-sm">
+
+      </div>
+
+<div class="col-md-8 col-xs-12 col-sm-12 col-lg=8" style="margin-top:30px;">
+
+<div id="text">
+</div>
+<div id="loading"><img class="img-responsive" src="images/loader.gif" alt="please wait"> </div>
+</div>
+
+
+
+       <div class="col-md-2 col-lg=2 hidden-xs hidden-sm">
+
+      </div>
+
+</div><!end of row for form>
+
+
+<!********************************************row 2 end  here*******************************************************************>
+
+
+</div><!fluid content end here>
+<br><br>
+</body>
+</html>

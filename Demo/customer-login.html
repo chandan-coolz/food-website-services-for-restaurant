@@ -1,0 +1,321 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Food Ordering</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <script src="JavaScript/jquery.js"> </script>
+  <script src=" bootstrap/js/bootstrap.min.js"></script>
+
+  <script src="JavaScript/menuList.js"> </script>
+
+<!********************************************script to add to the basket start here**********************************************************>
+<script>
+$(document).ready(function(){
+$("#loading").hide();
+
+ });
+</script>
+<script>
+
+if(sessionStorage.length==0)
+{
+
+  window.location = "admin.html";
+
+}  
+
+var emailTracker=false; /* to track email */
+var text="";
+var itemText="";
+ var itemKey = JSON.parse(sessionStorage.itemKey);
+ var itemName = JSON.parse(sessionStorage.itemName);
+var itemPrice = JSON.parse(sessionStorage.itemPrice);
+var itemQty = JSON.parse(sessionStorage.itemQty);
+var totalAmount=sessionStorage.totalAmount;
+
+text+='<h4 class="bg-primary" style="text-align:center">Your Order</h4>';
+text+='<table class="table table-condensed table-striped"> <thead> <tr> <th>item</th> <th>Qty</th> <th>Price</th> </tr> </thead> <tbody>';
+
+for(var i=0;i<itemKey.length;i++)   
+                             {
+
+                       if(itemQty[i]>0)
+                                 {
+                                     text+="<tr>";
+             
+                                     text+='<td>';
+                                       text+=itemName[i];
+                                     text+="</td>";
+
+                                     text+='<td>';
+                                      text+=itemQty[i];
+                                     text+="</td>";
+
+                                     text+='<td>';
+                                      text+=itemPrice[i];
+                                     text+="</td>";
+
+                                      text+="</tr>";
+                                     
+                                      itemText+=itemName[i];
+                                      itemText+=":";  
+                                      itemText+=itemQty[i];
+                                      itemText+=","; 
+
+                                  }
+                                  
+                             }
+
+                       
+                                 
+                                     text+="<tr>";
+             
+                                     text+='<td>';
+                                       text+="Total Amount =";
+                                     text+="</td>";
+                                   
+                                     text+='<td colspan="2">';
+                                       text+=totalAmount;
+                                     text+="</td>";
+                                    text+="</tr>";
+                                    text+="</tbody>"
+                                   text+="</table>";
+                                   text+="<br><br><center>";
+                                  text+='<form action="index.html" >';
+  
+                                  text+='<input type="submit" class="form-control" value="Back to Menu" style="color:#FF0000">';
+                                  text+= '</form>';
+                                  text+='<br>';
+                                   text+='<br>';
+
+
+
+
+$(document).ready(function(){
+              
+               
+                 $("#orderDisplay").html(text);  
+
+});
+
+</script>
+
+<!********************************************script to display order details End here********************************************************>
+
+
+
+
+<!*********************************login script End here************************************************************************>
+<script>
+function login() {
+
+if(sessionStorage.length==0)
+{
+     window.location = "error.html";
+     return false;
+
+} 
+   
+ var email=document.getElementById("loginEmail").value;
+ var password=document.getElementById("loginPassword").value;
+
+
+
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+              $("#loading").show();
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                         
+   
+                      $("#loading").hide();
+                      var result=xmlhttp.responseText;
+                  if(result.search("success") > -1)
+
+                       {
+                        
+                         window.location = "afterLogin.html";
+                             
+                         
+                          
+                       }
+                    else {
+                       
+                           document.getElementById("txtHint").innerHTML = result;
+                            
+                         }    
+
+            }//if
+        }//xmlhttp
+        xmlhttp.open("GET", "validateLogin.php?email="+email+"&password="+password, true);
+        xmlhttp.send();
+    
+}
+</script>
+
+<!********************************login script end here**********************************************************************************>
+
+
+
+
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row" style="margin-top:50px">
+       <div class="col-md-4 hidden-xs hidden-sm">
+        
+       </div>
+
+       <div class="col-md-4 col-xs=12 col-sm=12" >
+         <img class="img-responsive" src="images/logo.png" alt="logo"> 
+       </div>
+
+       <div class="col-md-4 hidden-xs hidden-sm">
+       
+
+       </div>
+
+  </div><!row for logo end here>
+
+
+<!******************************************************menu row section start here*********************************************************>
+  <div class="row">
+
+
+       <div class="col-md-12 col-xs=12 col-sm=12">
+         
+           <nav class="navbar navbar-inverse navbar-fixed-top">
+              <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                  </button>  
+                 <a class="navbar-brand">Website Name</a>
+              </div> 
+
+              <div class="collapse navbar-collapse" id="myNavbar" >
+                   <ul class="nav navbar-nav">
+                        <li><a href="food-website-demo.html">Home</a></li>
+                        
+                        
+                   </ul>
+              </div>
+          </nav>
+       </div><!end of column>
+
+
+
+  </div><!end of row for menu>
+
+<!******************************************************menu row section end here*********************************************************>
+
+
+
+
+<!********************************************************main content section start here****************************************************>
+ <div class="row">
+  
+
+       <div class="col-md-2 hidden-xs hidden-sm">
+         
+       </div>
+
+
+       <div class="col-md-7 col-xs=8 col-sm=8"><!main content>
+       
+<!**********************************************************Veg Section Start here ******************************************************> 
+   <ul class="nav nav-pills">
+       <li id="newCustomerLink" ><a href="checkout.html">New User</a></li>
+       <li class="active" id="oldCustomerLink" ><a href="customer-login.html">Already Have Account</a></li>   
+  </ul> 
+  
+
+  
+<! *******************************old Customer********************************************************************************************>
+<div id="oldCustomerDiv">
+  <br/>
+
+
+  <table class="table table-condensed">
+    
+
+           <td style="text-align:left;">Email</td>
+           <td style="text-align:left;"><input type="text" id="loginEmail" maxlength="40" class="form-control" name="email" placeholder="Email"/></td>  
+            
+  
+</tr>
+
+
+<tr>
+           <td style="text-align:left;">Password</td>
+           <td style="text-align:left;"><input type="password"  id="loginPassword"  maxlength="20" class="form-control" name="password" placeholder="Password" /></td>     
+  <td style="text-align:left;"><span style="color:red;" id="passwordError"></span></td>
+</tr>
+
+
+
+<tr>
+           <td  style="text-align:center;"><button onclick="login()" class="btn btn-default">login</button></td>
+           <td  style="text-align:center;"><button onclick="window.location = 'forget-password.html'" class="btn btn-default">forget password</button></td>                
+  
+</tr>
+
+<tr>
+           <td Colspan="2" style="text-align:center;color:red;"><span id="txtHint"></span></td>
+                
+  
+</tr>
+
+</table>
+
+<div id="loading"><img class="img-responsive" src="images/loader.gif" alt="please wait"> </div>
+
+   
+
+</div>
+
+  <! ********************************************************* old Customer*****************************************************************>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ </div><! end of main content column>
+
+<!********************************************************main content section End here****************************************************>
+
+
+
+
+<!********************************************************Your Order section start here****************************************************>
+
+      <div class="col-md-3 col-xs=4 col-sm=4" >
+         
+             <div id="orderDisplay" style="background: url(images/foodBucket.jpeg) no-repeat;">
+             </div>
+   
+
+       </div>
+<!********************************************************your order section end here***************************************************>       
+
+
+  </div><!row for main content and order end here>
+</div><!fluid content end here>
+
+</body>
+</html>

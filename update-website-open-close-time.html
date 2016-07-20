@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Food Ordering</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+  <script src="JavaScript/jquery.js"> </script>
+  <script src=" bootstrap/js/bootstrap.min.js"></script>
+
+<!*********************************validation script here************************************************************************>
+<script>
+$(document).ready(function(){
+$("#loading").hide();
+$("#logoUpload").hide();
+$("#continueButton").hide();
+$("#successResult").hide(); 
+
+
+});
+
+
+</script>
+<script>
+
+$(document).ready(function(){
+
+
+var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                
+
+                      var result=xmlhttp.responseText;
+   
+                if(result.search("notlogged") > -1){
+                 
+                       window.location = "Merchant-login.html";       
+                       }
+                
+                    else {
+                            $("#website_picture_status_active").hide();
+                           document.getElementById("usrName").innerHTML=" welcome "+result;
+                                                    
+                         }    
+
+            }//if
+        }//xmlhttp
+        xmlhttp.open("GET", "Merchant-Get-Name.php", true);
+        xmlhttp.send();
+    
+
+
+
+
+}); //end of ready
+
+
+</script>
+<!******************************************************updte no time detils*****************************************************************>
+
+<script>
+
+function noTimeUpdate(){
+
+
+var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+             $("#loading").show();
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                 $("#loading").hide();
+
+                      var result=xmlhttp.responseText;
+   
+                if(result.search("notlogged") > -1){
+                 
+                       window.location = "Merchant-login.html";       
+                       }
+                
+                 else if(result.search("fail") > -1){
+                 
+                       window.location = "error.html";       
+                       }
+
+                    else {
+                            
+                          $("#successResult").show();                          
+                         }    
+
+            }//if
+        }//xmlhttp
+        xmlhttp.open("GET", "update-No-Timing-details.php", true);
+        xmlhttp.send();
+    
+
+
+
+
+} //end of ready
+
+
+</script>
+
+<!******************************************************update time detils*****************************************************************>
+
+<script>
+
+function TimeUpdate(){
+
+
+
+var openTimeH=document.getElementById("openTimeH").value;
+var openTimeM=document.getElementById("openTimeM").value;
+var openTimeS=document.getElementById("openTimeS").value;
+
+var openTime=openTimeH+"-"+openTimeM+"-"+openTimeS;
+
+
+var closeTimeH=document.getElementById("closeTimeH").value;
+var closeTimeM=document.getElementById("closeTimeM").value;
+var closeTimeS=document.getElementById("closeTimeS").value;
+
+var closeTime=closeTimeH+"-"+closeTimeM+"-"+closeTimeS;
+
+var e = document.getElementById("weekHoliday");
+var weekHoliday = e.options[e.selectedIndex].value;
+
+
+var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+             $("#loading").show();
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                      $("#loading").hide();
+
+                      var result=xmlhttp.responseText;
+   
+                if(result.search("notlogged") > -1){
+                 
+                       window.location = "Merchant-login.html";       
+                       }
+                
+                 else if(result.search("fail") > -1){
+                 
+                       window.location = "error.html";       
+                       }
+
+                    else {
+                            
+                          $("#successResult").show();                          
+                         }    
+
+            }//if
+        }//xmlhttp
+        xmlhttp.open("GET", "update-Timing-details.php?openTime="+openTime+"&closeTime="+closeTime+"&weekHoliday="+weekHoliday, true);
+        xmlhttp.send();
+    
+
+
+
+
+} //end of ready
+
+
+</script>
+
+
+
+
+<!**************************************************radio button toggle********************************************************************>
+<script>
+$(document).ready(function(){
+
+    $('input[type="radio"]').click(function(){
+
+        if($(this).attr("value")=="providedByYou"){
+
+            
+            $("#continueButton").show();
+            $("#logoUpload").hide();
+
+        }
+
+        if($(this).attr("value")=="mine"){
+
+            $("#logoUpload").show();
+            $("#continueButton").hide();
+
+        }
+
+
+    });
+
+});
+</script>
+<script>
+
+function openTimeValidate()
+{
+
+var openTimeH=parseInt(document.getElementById("openTimeH").value);
+var openTimeM=parseInt(document.getElementById("openTimeM").value);
+var openTimeS=parseInt(document.getElementById("openTimeS").value);
+
+if(openTimeH<0 || openTimeH>23 || isNaN(openTimeH) )
+  {
+
+  document.getElementById("openTimeError").innerHTML="Hour should be between 0-24";
+   return false;
+  } else 
+  {
+    if(openTimeM<0 || openTimeM>59 || isNaN(openTimeM) )
+  
+      {
+      document.getElementById("openTimeError").innerHTML="Minutes should be between 0-59";
+      return false;
+      } 
+  else{
+         if(openTimeS<0 || openTimeS>59 || isNaN(openTimeS) )
+           {
+            document.getElementById("openTimeError").innerHTML="Seconds should be between 0-59";
+           }
+
+      else {
+            document.getElementById("openTimeError").innerHTML="";
+            return true;
+           }
+           
+
+      } //if 3
+
+  }//main if
+
+
+} //open fuction end
+
+function closeTimeValidate()
+{
+
+var closeTimeH=parseInt(document.getElementById("closeTimeH").value);
+var closeTimeM=parseInt(document.getElementById("closeTimeM").value);
+var closeTimeS=parseInt(document.getElementById("closeTimeS").value);
+
+if(closeTimeH<0 || closeTimeH>23 || isNaN(closeTimeH) )
+  {
+
+  document.getElementById("closeTimeError").innerHTML="Hour should be between 0-24";
+   return false;
+  } else 
+  {
+    if(closeTimeM<0 || closeTimeM>59 || isNaN(closeTimeM) )
+  
+      {
+      document.getElementById("closeTimeError").innerHTML="Minutes should be between 0-59";
+      return false;
+      } 
+  else{
+         if(closeTimeS<0 || closeTimeS>59 || isNaN(closeTimeS) )
+           {
+            document.getElementById("closeTimeError").innerHTML="Seconds should be between 0-59";
+           }
+
+      else {
+            document.getElementById("closeTimeError").innerHTML="";
+            return true;
+           }
+           
+
+      } //if 3
+
+  }//main if
+
+
+} //open fuction end
+
+
+function validateTimeDifference()
+{
+var openTimeH=parseInt(document.getElementById("openTimeH").value);
+var openTimeM=parseInt(document.getElementById("openTimeM").value);
+var openTimeS=parseInt(document.getElementById("openTimeS").value);
+
+var closeTimeH=parseInt(document.getElementById("closeTimeH").value);
+var closeTimeM=parseInt(document.getElementById("closeTimeM").value);
+var closeTimeS=parseInt(document.getElementById("closeTimeS").value);
+
+  if(closeTimeH>openTimeH)
+   {
+              
+    document.getElementById("TimeError").innerHTML="";
+    return true;
+
+    } else{
+
+           if(closeTimeH<openTimeH){
+              document.getElementById("TimeError").innerHTML="Closing time should be greater than opening time"; 
+              return false;
+             } else{
+                    if(closeTimeM<=openTimeM){
+                      document.getElementById("TimeError").innerHTML="Closing time should be greater than opening time";      
+                       return false;                 
+                                              } else {
+                                               
+                                               document.getElementById("TimeError").innerHTML="";
+                                                return true;   
+               
+                                              }// if 3
+
+
+     
+             }// if 2
+    }//main 1if
+
+
+
+}//close ValidateTime Difference
+
+
+
+function tosubmit()
+{
+document.getElementById("TimeError").innerHTML="";
+openTimeValidate();
+closeTimeValidate();
+ if(openTimeValidate() && closeTimeValidate() )
+    {
+       if(validateTimeDifference() )
+          {
+            TimeUpdate();
+           } else{
+            
+           }
+     
+     } else { 
+    
+       return false;
+
+     }
+}// tosubmit function
+</script>
+
+
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row">
+       <div class="col-md-12 col-xs-12 col-sm-12 col-lg=12">
+        
+           <nav class="navbar navbar-inverse navbar-fixed-top">
+  
+               <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                  </button>
+               <a class="navbar-brand" href="#"><span class="bg-primary" style="font-weight:bold">WebsiteForOnlineFoodDelivery.in</span></a>                
+               
+               </div>
+            <div class="collapse navbar-collapse" id="myNavbar" >
+               <div class="nav pull-right">
+                  <ul class="nav navbar-nav">
+                  
+                     <li class="active"><a  style="font-weight:bold"><i class="glyphicon glyphicon-user"></i><span id="usrName"> </span> </a></li>
+                     <li><a href="logout.php" style="font-weight:bold"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+                  </ul>
+                </div>
+              </div>
+           </div>
+            </nav>
+      
+       </div><!col end here>
+
+  </div><!row for logo end here>
+
+<div class="row">
+
+<div class="col-md-12 col-xs-12 col-sm-12 col-lg=12" style="margin-top:90px">
+<ul class="nav nav-pills">
+  <li><a href="Merchant-Account.html">ACCOUNT SUMMARY</a></li>
+   <li><a href="Merchant-Account-Update-Password.html">UPDATE PASSWORD</a></li>
+   <li><a href="Merchant-Account-Update-Website-Picture.html">UPDATE WEBSITE PIC</a></li>
+   <li><a href="Merchant-Account-Update-logo.html">UPDATE WEBSITE LOGO</a></li>
+   <li><a href="Merchant-Account-Update-Menu-Picture.html">UPDATE MENU CHART</a></li>
+   <li class="active"><a href="update-website-open-close-time.html">UPDATE RESTAURANT TIMING</a></li>
+</div>
+
+
+</div><!end of row for form>
+<!******************************************************************END OF TAB MENU*******************************************************>
+
+<!********************************************row 2 start here*******************************************************************>
+<div class="row">
+      <div class="col-md-2 col-lg=2 hidden-xs hidden-sm">
+
+      </div>
+<!********************************************************start******************************************************************>
+<div class="col-md-8 col-xs-12 col-sm-12 col-lg=8" style="margin-top:50px;">
+
+<h1 class="text-info" >ENTER TIMING DETAILS OF YOUR RESTAURANT</h1>
+<!p  class="text-warning"><!/p>
+<p id="successResult" class="text-success" style="font-size:25px">Your website will be updated soon, you will get email notification once it is updated</p>
+
+<div id="loading"><img class="img-responsive" src="images/loader.gif" alt="please wait"> </div>
+<br>
+ 
+
+
+</div>
+<!********************************************************End******************************************************************>
+       <div class="col-md-2 col-lg=2 hidden-xs hidden-sm">
+
+      </div>
+
+</div><!end of row for form>
+<!********************************************row 1 start here*******************************************************************>
+<div class="row">
+      <div class="col-md-2 col-lg=2 hidden-xs hidden-sm">
+
+      </div>
+
+<div class="col-md-8 col-xs-12 col-sm-12 col-lg=8" style="margin-top:10px;">
+
+ <form role="form">
+    <div class="radio">
+      <label><input type="radio" name="optradio" value="providedByYou">I want to keep my restaurant open for 24x7</label>
+    </div>
+    <div class="radio">
+      <label><input type="radio" name="optradio" value="mine">No, i don't want to keep open my restaurant for 24x7</label>
+    </div>
+    
+  </form>
+  
+
+
+
+
+
+
+<div id="logoUpload">
+
+ <!form role="form"  Method="POST" action="update-Timing-details.php" onsubmit="return tosubmit()">
+<table class="table table-condensed">
+  <tbody>
+  <tr>
+    
+    <td><label>Restaurant Opening Time <span style="color:red">*</span></label></td>
+    <td><input type="text" class="form-control" id="openTimeH" name="openTimeH" placeholder="0-23 hours" maxlength="2">
+    <td><input type="text" class="form-control" id="openTimeM" name="openTimeM" placeholder="0-59 minutes" maxlength="2"></td>
+    <td><input type="text" class="form-control" id="openTimeS" name="openTimeS" placeholder="0-59 Second" maxlength="2"></td>
+    
+    
+ </tr>
+ <tr>
+    <td colspan="4" style="text-align:left;"><span style="color:red;" id="openTimeError"></span></td>
+ </tr>
+ <tr>    
+    <td><label>Restaurant Closing Time <span style="color:red">*</span></label></td>
+    <td><input type="text" class="form-control" id="closeTimeH" name="closeTimeH" placeholder="0-23 hours" maxlength="2"></td>
+    <td><input type="text" class="form-control" id="closeTimeM" name="closeTimeM" placeholder="0-59 minutes" maxlength="2"></td>
+    <td><input type="text" class="form-control" id="closeTimeS" name="closeTimeS" placeholder="0-59 Second" maxlength="2"></td>
+    
+ </tr>
+ <tr>
+    <td colspan="4" style="text-align:left;"><span style="color:red;" id="closeTimeError"></span></td>
+ </tr>   
+ <tr>    
+    <td><label>Week Holiday</label></td>
+    <td>
+     <select class="form-control"  id="weekHoliday">
+    <option value="none">--Select--</option>
+    <option value="sun">sun</option>
+    <option value="mon">mon</option>
+    <option value="tue">tue</option>
+    <option value="wed">wed</option>
+    <option value="thru">thru</option>
+    <option value="fri">fri</option>
+    <option value="sat">sat</option>
+  </select>
+    </td>
+ </tr>
+ 
+ <tr>
+    <td colspan="4" style="text-align:left;"><span style="color:red;" id="TimeError"></span></td>
+ </tr>
+
+ <tr>
+    <td colspan="4" style="text-align:center;"><button type="submit" onclick="tosubmit();"   class="btn btn-default" style="color:#FFFFFF;background-color:#FF3300;font-weight:bold">Submit</button>
+</td>
+ </tr>
+        
+    </tbody>
+</table>
+<!/form>
+
+</div>
+
+
+
+
+<div id="continueButton">
+
+<button type="submit" onclick="noTimeUpdate();" id="continue" class="pull-right"  class="btn btn-default" style="color:#FFFFFF;background-color:#FF3300;font-weight:bold">Submit</button>
+</div>
+
+
+</div>
+
+
+
+
+
+       <div class="col-md-2 col-lg=2 hidden-xs hidden-sm">
+
+      </div>
+
+</div><!end of row for form>
+
+
+
+
+
+
+
+
+
+
+
+</div><!fluid content end here>
+
+</body>
+</html>

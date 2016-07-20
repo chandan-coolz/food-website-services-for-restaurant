@@ -1,0 +1,146 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Food Ordering</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <script src="JavaScript/jquery.js"> </script>
+  <script src=" bootstrap/js/bootstrap.min.js"></script>
+
+  <script src="JavaScript/menuList.js"> </script>
+
+<!********************************************script start here**********************************************************>
+<script>
+
+if(sessionStorage.length==0)
+{
+
+  window.location = "error.html";
+
+}
+
+sessionStorage.clear();
+
+
+
+</script>
+
+<script>
+
+$(document).ready(function(){
+
+$.getJSON('success.php',function(data)
+ {
+
+var text="Thankyou "+data[0]+" for food ordering. Your Order No. is "+data[1]+", Just give us some time we will serve you soon";
+
+  document.getElementById("txt").innerHTML=text;
+
+});
+
+
+});
+
+
+</script>
+
+<!********************************script end here******************************************************************************>
+
+
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row" style="margin-top:50px">
+       <div class="col-md-4 hidden-xs hidden-sm">
+        
+       </div>
+
+       <div class="col-md-4 col-xs=12 col-sm=12" >
+         <img class="img-responsive" src="images/logo.png" alt="logo"> 
+       </div>
+
+       <div class="col-md-4 hidden-xs hidden-sm">
+       
+
+       </div>
+
+  </div><!row for logo end here>
+
+
+<!******************************************************menu row section start here*********************************************************>
+  <div class="row">
+
+
+       <div class="col-md-12 col-xs=12 col-sm=12">
+         
+           <nav class="navbar navbar-inverse navbar-fixed-top">
+              <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                  </button>  
+                 <a class="navbar-brand">Website Name</a>
+              </div> 
+
+              <div class="collapse navbar-collapse" id="myNavbar" >
+                   <ul class="nav navbar-nav">
+                        <li><a href="food-website-demo.html">Home</a></li>
+                        
+                        <li><a href="contact.html">Contact</a></li>
+                   </ul>
+              </div>
+          </nav>
+       </div><!end of column>
+
+
+
+  </div><!end of row for menu>
+<!******************************************************menu row section end here*********************************************************>
+
+
+
+
+<!********************************************************main content section start here****************************************************>
+ <div class="row" style="margin-top:20px">
+  
+
+       <div class="col-md-2 hidden-xs hidden-sm">
+         
+       </div>
+
+
+       <div class="col-md-8 col-xs=12 col-sm=12"><!main content>
+       <! *******************************content********************************************************************************************>
+         
+         <img class="img-responsive" src="images/success.jpeg" style="margin-left:120px" alt="success">
+         
+         <h4 id="txt" class="text-success"></h4>
+         
+  <! *********************************************************content*****************************************************************>
+
+
+       </div><! end of main content column>
+
+
+
+
+
+
+      <div class="col-md-2 hidden-xs hidden-sm">
+        
+   
+
+       </div>
+
+
+
+  </div><!row for main content  end here>
+<!********************************************************main content section end here****************************************************>
+ 
+</div><!fluid content end here>
+
+</body>
+</html>
